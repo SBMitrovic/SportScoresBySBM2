@@ -1,14 +1,36 @@
 package pmf.android.sportscoresbysbm2;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.Manifest;
+import android.widget.Toast;
+
+import pmf.android.sportscoresbysbm2.model.CountryList;
+import pmf.android.sportscoresbysbm2.model.LeaguesByCountry;
+import pmf.android.sportscoresbysbm2.utilities.APICredentials;
+import pmf.android.sportscoresbysbm2.utilities.APIInterface;
+import pmf.android.sportscoresbysbm2.utilities.RetrofitMaker;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    int code;
+    static final int PERMISSIONS_REQUEST_INTERNET = 1;
+    APIInterface apiInterface;
+    CountryList countryList;
+    LeaguesByCountry LeaguesByCountryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +41,98 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        TextView api_keyView = findViewById(R.id.api_keyView);
+        checkPermissions();
+
+
+        apiInterface = RetrofitMaker.getRetrofit();
+
+        createRequest();
+        getLeaguesByCountry("Serbia");
+
+
+        if(countryList != null) {
+            api_keyView.setText("list Not null" );
+
+        }else {
+            Log.i("countries", "null");
+            api_keyView.setText("list = null");
+        }
+    }
+
+    private void createRequest() {
+        apiInterface.getCountries().enqueue(new Callback<CountryList>() {
+            String smh = "smh";
+
+            @Override
+            public void onResponse(Call<CountryList> call, Response<CountryList> response) {
+                Log.i("infoinfo","smh");
+                code = response.code();
+                if (response.code() == 200) {
+                    Log.i("response.body", response.body().toString());
+                    Log.i("bodyToString", response.body().toString());
+                    countryList = response.body();
+                    TextView api_keyView = findViewById(R.id.api_keyView);
+                    api_keyView.setText(countryList.getResponse().get(57).getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CountryList> call, Throwable t) {
+                Log.i("code", " " +  code);
+                Log.i("onFailure", t.getMessage());
+            }
+        });
+    }
+
+
+    private void checkPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.INTERNET},
+                    PERMISSIONS_REQUEST_INTERNET);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_INTERNET: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
+
+    private void getLeaguesByCountry(String country) {
+        apiInterface.getLeaguesByCountry(country).enqueue(new Callback<LeaguesByCountry>() {
+            String smh = "smh";
+
+            @Override
+            public void onResponse(Call<LeaguesByCountry> call, Response<LeaguesByCountry> response) {
+                Log.i("infoinfo","smh");
+                code = response.code();
+                if (response.code() == 200) {
+                    Log.i("response.body", response.body().toString());
+                    Log.i("bodyToString", response.body().toString());
+                    LeaguesByCountryList = response.body();
+                    TextView api_keyView = findViewById(R.id.api_keyView);
+                    api_keyView.setText(LeaguesByCountryList.getCompetition().get(0).getCountry().getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LeaguesByCountry> call, Throwable t) {
+                Log.i("code", " " +  code);
+                Log.i("onFailure", t.getMessage());
+            }
         });
     }
 }
