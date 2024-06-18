@@ -1,10 +1,18 @@
 package pmf.android.sportscoresbysbm2.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import  com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "country")
 public class Country {
 
+
     @SerializedName("name")
+    @PrimaryKey
+    @NonNull
     private String name;
     @SerializedName("code")
     private String code;

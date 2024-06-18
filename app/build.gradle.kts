@@ -29,6 +29,9 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -41,4 +44,5 @@ dependencies {
 
     implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation ("com.jakewharton.threetenabp:threetenabp:1.1.1")
 }

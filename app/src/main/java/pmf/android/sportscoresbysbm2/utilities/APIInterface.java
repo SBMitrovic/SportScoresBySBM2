@@ -1,6 +1,7 @@
 package pmf.android.sportscoresbysbm2.utilities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pmf.android.sportscoresbysbm2.model.*;
 import retrofit2.Call;
@@ -13,11 +14,14 @@ public interface APIInterface {
 
     @Headers("x-rapidapi-key:" + APICredentials.API_KEY)
     @GET("leagues")
-    Call<LeaguesByCountry> getLeaguesByCountry(@Query("country") String country);
+    Call<CompetitionsByCountry> getCompetitionsByCountry(@Query("country") String country);
 
     @Headers("x-rapidapi-key:"+APICredentials.API_KEY)
     @GET("countries")
     Call<CountryList> getCountries();
 
+    @Headers("x-rapidapi-key:"+APICredentials.API_KEY)
+    @GET("standings")
+    Call<StandingsResponse> getStandingsByLeague(@Query("league") String league, @Query("season") String season);
 
 }
