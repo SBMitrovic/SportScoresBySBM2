@@ -18,6 +18,9 @@ import android.widget.Toast;
 import pmf.android.sportscoresbysbm2.model.CompetitionsByCountry;
 import pmf.android.sportscoresbysbm2.model.CountryList;
 import pmf.android.sportscoresbysbm2.model.StandingsResponse;
+import pmf.android.sportscoresbysbm2.model.database.ApplicationRoomDatabase;
+import pmf.android.sportscoresbysbm2.model.database.TeamEntity;
+import pmf.android.sportscoresbysbm2.model.database.TeamEntityDao;
 import pmf.android.sportscoresbysbm2.utilities.APIInterface;
 import pmf.android.sportscoresbysbm2.utilities.RetrofitMaker;
 import retrofit2.Call;
@@ -50,10 +53,15 @@ public class MainActivity extends AppCompatActivity {
 
         apiInterface = RetrofitMaker.getRetrofit();
 
-        //getCountriesList();
+        getCountriesList();
         getCompetitionsByCountry("Albania");
-        //leagueStandings("57","2023");
+        leagueStandings("57","2023");
 
+        ApplicationRoomDatabase.getDatabase(SportScoresBySBM.getInstance());
+
+        TeamEntityDao teamEntityDao = ApplicationRoomDatabase.getDatabase(getApplicationContext()).teamEntityDao();
+        TeamEntity favTeam = new TeamEntity(24L, "Bosna");
+        teamEntityDao.insert(favTeam);
 
         if(countryList != null) {
             api_keyView.setText("list Not null" );
