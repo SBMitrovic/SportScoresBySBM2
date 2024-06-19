@@ -12,7 +12,7 @@ import pmf.android.sportscoresbysbm2.model.Competition;
 @Dao
 public interface CompetitionDao {
 
-    /*
+
     //Ovde ce se trebati dodati ID drzave da bi se dobila takmicenja bas za tu drzavu
     @Query("SELECT * FROM competition")
     List<Competition> getAll();
@@ -21,5 +21,5 @@ public interface CompetitionDao {
     void insert(Competition competition);
 
     @Delete
-    void delete(Competition competition);  */
+    void delete(Competition competition);
 }

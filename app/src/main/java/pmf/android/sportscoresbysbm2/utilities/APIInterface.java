@@ -12,11 +12,11 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
 
-    @Headers("x-rapidapi-key:" + APICredentials.API_KEY)
+    @Headers({"x-rapidapi-key:" + APICredentials.API_KEY, "Cache-Control: public, max-age=3600"})
     @GET("leagues")
     Call<CompetitionsByCountry> getCompetitionsByCountry(@Query("country") String country);
 
-    @Headers("x-rapidapi-key:"+APICredentials.API_KEY)
+    @Headers({"x-rapidapi-key:" + APICredentials.API_KEY, "Cache-Control: public, max-age=3600"})
     @GET("countries")
     Call<CountryList> getCountries();
 

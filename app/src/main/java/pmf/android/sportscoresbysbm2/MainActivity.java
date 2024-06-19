@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         apiInterface = RetrofitMaker.getRetrofit();
 
         //getCountriesList();
-        getCompetitionsByCountry("Serbia");
+        getCompetitionsByCountry("Albania");
         //leagueStandings("57","2023");
 
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("bodyToString", response.body().toString());
                     countryList = response.body();
                     TextView api_keyView = findViewById(R.id.api_keyView);
-                 //   api_keyView.setText(countryList.getResponse().get(57).getName());
+                    api_keyView.setText(countryList.getResponse().get(57).getName());
                 }
             }
 

@@ -1,15 +1,17 @@
 package pmf.android.sportscoresbysbm2.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity(tableName = "league")
+
+
 public class League {
     @PrimaryKey
-    @NonNull
     private Long id;
     private String name;
     private String country;
@@ -18,7 +20,8 @@ public class League {
     private Long season;
     private List<List<StandingsResponse.Standing>> standings;
 
-    public League(Long id, String name, String country, String logo, String flag, Long season, List<List<StandingsResponse.Standing>> standings) {
+    @Ignore
+    public League(@NonNull Long id, String name, String country, String logo, String flag, Long season, List<List<StandingsResponse.Standing>> standings) {
         this.id = id;
         this.name = name;
         this.country = country;
@@ -26,6 +29,9 @@ public class League {
         this.flag = flag;
         this.season = season;
         this.standings = standings;
+    }
+
+    public League() {
     }
 
     public Long getId() {

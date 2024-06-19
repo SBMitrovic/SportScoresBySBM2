@@ -2,6 +2,8 @@ package pmf.android.sportscoresbysbm2.model;
 
 
 
+import androidx.room.Ignore;
+
 import java.util.List;
 
 public class StandingsResponse {
@@ -77,6 +79,7 @@ public class StandingsResponse {
         private Away away;
         private String update;
 
+        @Ignore
         public Standing(Long rank, Team team, Long points, Long goalsDiff, String group, String form, String status, String description, All all, Home home, Away away, String update) {
             this.rank = rank;
             this.team = team;
