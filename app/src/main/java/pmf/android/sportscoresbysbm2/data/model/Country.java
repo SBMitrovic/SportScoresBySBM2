@@ -7,11 +7,8 @@ import androidx.room.PrimaryKey;
 
 import  com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "country")
 public class Country {
 
-    @PrimaryKey(autoGenerate = true)
-    private Long id;
     @SerializedName("name")
     private String name;
     @SerializedName("code")
@@ -53,13 +50,7 @@ public class Country {
         this.flagUrlLocation = flagUrlLocation;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {

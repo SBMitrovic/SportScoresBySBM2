@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void getCountriesList() {
         apiInterface.getCountries().enqueue(new Callback<CountryList>() {
-            String smh = "smh";
 
             @Override
             public void onResponse(Call<CountryList> call, Response<CountryList> response) {
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("response.body", response.body().toString());
                     Log.i("bodyToString", response.body().toString());
                     countryList = response.body();
+                    response.body().getResponse().get(100).getName();
                     TextView api_keyView = findViewById(R.id.api_keyView);
                     api_keyView.setText(countryList.getResponse().get(100).getName());
                 }
