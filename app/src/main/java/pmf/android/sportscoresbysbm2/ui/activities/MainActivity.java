@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2.activities;
+package pmf.android.sportscoresbysbm2.ui.activities;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,13 +17,12 @@ import android.widget.Toast;
 
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.SportScoresBySBM;
-import pmf.android.sportscoresbysbm2.model.CompetitionsByCountry;
-import pmf.android.sportscoresbysbm2.model.CountryList;
-import pmf.android.sportscoresbysbm2.model.StandingsResponse;
-import pmf.android.sportscoresbysbm2.model.database.ApplicationRoomDatabase;
-import pmf.android.sportscoresbysbm2.model.database.TeamEntity;
-import pmf.android.sportscoresbysbm2.model.database.TeamEntityDao;
-import pmf.android.sportscoresbysbm2.utilities.APIInterface;
+import pmf.android.sportscoresbysbm2.data.model.CompetitionsByCountry;
+import pmf.android.sportscoresbysbm2.data.model.CountryList;
+import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
+import pmf.android.sportscoresbysbm2.data.database.ApplicationRoomDatabase;
+import pmf.android.sportscoresbysbm2.data.database.TeamEntityDao;
+import pmf.android.sportscoresbysbm2.utilities.APIFootballInterface;
 import pmf.android.sportscoresbysbm2.utilities.RetrofitMaker;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     int code;
     static final int PERMISSIONS_REQUEST_INTERNET = 1;
-    APIInterface apiInterface;
+    APIFootballInterface apiInterface;
     CountryList countryList;
     CompetitionsByCountry CompetitionsByCountryList;
     StandingsResponse currentLeague;

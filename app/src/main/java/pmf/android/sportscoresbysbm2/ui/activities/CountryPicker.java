@@ -1,9 +1,8 @@
-package pmf.android.sportscoresbysbm2.activities;
+package pmf.android.sportscoresbysbm2.ui.activities;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,9 +13,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import pmf.android.sportscoresbysbm2.R;
-import pmf.android.sportscoresbysbm2.model.Country;
-import pmf.android.sportscoresbysbm2.model.CountryList;
-import pmf.android.sportscoresbysbm2.utilities.APIInterface;
+import pmf.android.sportscoresbysbm2.data.model.Country;
+import pmf.android.sportscoresbysbm2.data.model.CountryList;
+import pmf.android.sportscoresbysbm2.utilities.APIFootballInterface;
 import pmf.android.sportscoresbysbm2.utilities.RetrofitMaker;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +32,7 @@ public class CountryPicker extends AppCompatActivity {
             "Web Technologies" };
 
      CountryList countryList;
-    APIInterface apiInterface = RetrofitMaker.getRetrofit();
+    APIFootballInterface apiInterface = RetrofitMaker.getRetrofit();
 
 
     @Override

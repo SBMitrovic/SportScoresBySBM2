@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2.model;
+package pmf.android.sportscoresbysbm2.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,15 +1,9 @@
-package pmf.android.sportscoresbysbm2.model;
+package pmf.android.sportscoresbysbm2.data.model;
 
 import androidx.annotation.NonNull;
-import androidx.room.Embedded;
-import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 
 import com.google.gson.annotations.SerializedName;
-
-import org.jetbrains.annotations.NonNls;
 
 import java.util.List;
 

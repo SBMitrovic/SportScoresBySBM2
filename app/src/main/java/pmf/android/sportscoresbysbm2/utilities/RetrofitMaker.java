@@ -27,7 +27,7 @@ public class RetrofitMaker {
     public static final String HEADER_PRAGMA = "Pragma";
     private static final int cacheSize = 10 * 1024 * 1024;
 
-    public static APIInterface getRetrofit() {
+    public static APIFootballInterface getRetrofit() {
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -35,7 +35,7 @@ public class RetrofitMaker {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient())
                 .build();
-        return retrofit.create(APIInterface.class);
+        return retrofit.create(APIFootballInterface.class);
     }
 
 

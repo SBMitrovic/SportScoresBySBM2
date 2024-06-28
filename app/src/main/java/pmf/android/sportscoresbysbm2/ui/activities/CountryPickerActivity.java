@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2.activities;
+package pmf.android.sportscoresbysbm2.ui.activities;
 
 import android.os.Bundle;
 
