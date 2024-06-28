@@ -18,6 +18,7 @@ import pmf.android.sportscoresbysbm2.SportScoresBySBM;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import okhttp3.logging.HttpLoggingInterceptor;
+//import androidx.compose.ui.tooling.preview.Preview;
 
 public class RetrofitMaker {
 
@@ -62,13 +63,14 @@ public class RetrofitMaker {
             @NonNull
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Log.d("TAG", "offline interceptor: called.");
                 Request request = chain.request();
 
                 // prevent caching when network is on. For that we use the "networkInterceptor"
-                if (!SportScoresBySBM.hasNetwork()) {
+                if (!SportScoresBySBM.hasNetwork() || SportScoresBySBM.isOnline()) {
+                    Log.d("OFFLINE INTERCEPTOR", "offline interceptor: called.");
+
                     CacheControl cacheControl = new CacheControl.Builder()
-                            .maxStale(7, TimeUnit.DAYS)
+                            .maxStale(5, TimeUnit.DAYS)
                             .build();
 
                     request = request.newBuilder()
@@ -96,7 +98,7 @@ public class RetrofitMaker {
                 Response response = chain.proceed(chain.request());
 
                 CacheControl cacheControl = new CacheControl.Builder()
-                        .maxAge(2, TimeUnit.HOURS)
+                        .maxAge(5, TimeUnit.DAYS)
                         .build();
 
                 return response.newBuilder()
@@ -122,5 +124,14 @@ public class RetrofitMaker {
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY);
         return httpLoggingInterceptor;
     }
+
+
+
+    /*
+    @Preview
+    @Composable
+
+
+     */
 }
 

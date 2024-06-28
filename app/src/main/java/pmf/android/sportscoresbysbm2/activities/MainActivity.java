@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2;
+package pmf.android.sportscoresbysbm2.activities;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.Manifest;
 import android.widget.Toast;
 
+import pmf.android.sportscoresbysbm2.R;
+import pmf.android.sportscoresbysbm2.SportScoresBySBM;
 import pmf.android.sportscoresbysbm2.model.CompetitionsByCountry;
 import pmf.android.sportscoresbysbm2.model.CountryList;
 import pmf.android.sportscoresbysbm2.model.StandingsResponse;
@@ -60,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         ApplicationRoomDatabase.getDatabase(SportScoresBySBM.getInstance());
 
         TeamEntityDao teamEntityDao = ApplicationRoomDatabase.getDatabase(getApplicationContext()).teamEntityDao();
-        TeamEntity favTeam = new TeamEntity(24L, "Bosna");
-        teamEntityDao.insert(favTeam);
+        //TeamEntity favTeam = new TeamEntity(24L, "Bosna");
+        //teamEntityDao.insert(favTeam);
 
         if(countryList != null) {
             api_keyView.setText("list Not null" );
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("bodyToString", response.body().toString());
                     countryList = response.body();
                     TextView api_keyView = findViewById(R.id.api_keyView);
-                    api_keyView.setText(countryList.getResponse().get(57).getName());
+                    api_keyView.setText(countryList.getResponse().get(100).getName());
                 }
             }
 
@@ -138,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
                     /* Linija ispod je ubacena da bi se pokazalo kako polja koja su visak u klasi i response
                      ih ne mapira na knokretnu klasu ostaju undefined a ne null
                      sto ne dovodi do RuntimeException-a :) */
-                    api_keyView.setText(CompetitionsByCountryList.getCompetitions().get(0).getId() + ": Country - " + country);
+                   // api_keyView.setText(CompetitionsByCountryList.getCompetitions().get(0).getId() + ": Country - " + country);
+                   // api_keyView.setText(CompetitionsByCountryList.getCompetitions().get(0).getId() + ": Country - " + country);
                 }
             }
 
