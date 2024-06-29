@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2.utilities;
+package pmf.android.sportscoresbysbm2.util;
 
 import pmf.android.sportscoresbysbm2.data.model.CompetitionsByCountry;
 import pmf.android.sportscoresbysbm2.data.model.CountryList;
@@ -6,7 +6,6 @@ import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface APIFootballInterface {

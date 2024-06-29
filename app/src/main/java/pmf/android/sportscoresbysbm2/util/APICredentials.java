@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2.utilities;
+package pmf.android.sportscoresbysbm2.util;
 
 public interface APICredentials {
 
