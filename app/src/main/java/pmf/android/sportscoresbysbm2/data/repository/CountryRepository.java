@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import pmf.android.sportscoresbysbm2.data.LiveDataCallback;
 import pmf.android.sportscoresbysbm2.data.model.CountryList;
 import pmf.android.sportscoresbysbm2.util.APIFootballInterface;
 import pmf.android.sportscoresbysbm2.util.RetrofitMaker;
@@ -19,7 +18,6 @@ public class CountryRepository {
     private static final Object LOCK = new Object();
     private APIFootballInterface mApiFootballInterface;
     private RetrofitMaker retrofitMaker;
-    private LiveDataCallback<CountryList> callback;
     private static CountryRepository sInstance;
 
 

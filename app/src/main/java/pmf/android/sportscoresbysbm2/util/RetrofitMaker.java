@@ -22,7 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class RetrofitMaker {
 
-    private static final String TAG = "ServiceGenerator";
+    private static final String TAG = "RetrofitMaker";
     public static final String HEADER_CACHE_CONTROL = "Cache-Control";
     public static final String HEADER_PRAGMA = "Pragma";
     private static final int cacheSize = 10 * 1024 * 1024;

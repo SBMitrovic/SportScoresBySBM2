@@ -11,20 +11,17 @@ public class CountryListViewModel extends ViewModel {
 
     private static CountryListViewModel sInstance;
     private LiveData<CountryList> mCountryList;
+    private CountryRepository mCountryRepository;
 
-    public static CountryListViewModel getInstance(){
-        if(sInstance == null){
-            sInstance = new CountryListViewModel();
-        }
-        return sInstance;
-    }
 
-    private CountryListViewModel(){
-        mCountryList = CountryRepository.getInstance().fetchCountriesList();
-        sInstance = this.getInstance();
+
+    public CountryListViewModel(){
+        this.mCountryRepository = CountryRepository.getInstance();
+        this.mCountryList = mCountryRepository.fetchCountriesList();
     }
 
     public LiveData<CountryList> getCountryList(){
-        return mCountryList;
+        return this.mCountryList;
     }
+
 }
