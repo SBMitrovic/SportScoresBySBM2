@@ -1,16 +1,14 @@
-package pmf.android.sportscoresbysbm2.utilities;
+package pmf.android.sportscoresbysbm2.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import pmf.android.sportscoresbysbm2.model.*;
+import pmf.android.sportscoresbysbm2.data.model.CompetitionsByCountry;
+import pmf.android.sportscoresbysbm2.data.model.CountryList;
+import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface APIInterface {
+public interface APIFootballInterface {
 
     @Headers({"x-rapidapi-key:" + APICredentials.API_KEY, "Cache-Control: public, max-age=3600"})
     @GET("leagues")

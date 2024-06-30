@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2.utilities;
+package pmf.android.sportscoresbysbm2.util;
 import android.content.Context;
 import android.util.Log;
 
@@ -18,15 +18,16 @@ import pmf.android.sportscoresbysbm2.SportScoresBySBM;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import okhttp3.logging.HttpLoggingInterceptor;
+//import androidx.compose.ui.tooling.preview.Preview;
 
 public class RetrofitMaker {
 
-    private static final String TAG = "ServiceGenerator";
+    private static final String TAG = "RetrofitMaker";
     public static final String HEADER_CACHE_CONTROL = "Cache-Control";
     public static final String HEADER_PRAGMA = "Pragma";
     private static final int cacheSize = 10 * 1024 * 1024;
 
-    public static APIInterface getRetrofit() {
+    public static APIFootballInterface getRetrofit() {
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -34,7 +35,7 @@ public class RetrofitMaker {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient())
                 .build();
-        return retrofit.create(APIInterface.class);
+        return retrofit.create(APIFootballInterface.class);
     }
 
 
@@ -62,13 +63,14 @@ public class RetrofitMaker {
             @NonNull
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Log.d("TAG", "offline interceptor: called.");
                 Request request = chain.request();
 
                 // prevent caching when network is on. For that we use the "networkInterceptor"
-                if (!SportScoresBySBM.hasNetwork()) {
+                if (!SportScoresBySBM.hasNetwork() || SportScoresBySBM.isOnline()) {
+                    Log.d("OFFLINE INTERCEPTOR", "offline interceptor: called.");
+
                     CacheControl cacheControl = new CacheControl.Builder()
-                            .maxStale(7, TimeUnit.DAYS)
+                            .maxStale(5, TimeUnit.DAYS)
                             .build();
 
                     request = request.newBuilder()
@@ -96,7 +98,7 @@ public class RetrofitMaker {
                 Response response = chain.proceed(chain.request());
 
                 CacheControl cacheControl = new CacheControl.Builder()
-                        .maxAge(2, TimeUnit.HOURS)
+                        .maxAge(5, TimeUnit.DAYS)
                         .build();
 
                 return response.newBuilder()
@@ -122,5 +124,14 @@ public class RetrofitMaker {
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY);
         return httpLoggingInterceptor;
     }
+
+
+
+    /*
+    @Preview
+    @Composable
+
+
+     */
 }
 

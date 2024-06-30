@@ -1,4 +1,4 @@
-package pmf.android.sportscoresbysbm2.model.database;
+package pmf.android.sportscoresbysbm2.data.database;
 
 
 import androidx.room.Dao;

@@ -26,11 +26,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
 
     implementation("androidx.room:room-runtime:2.6.0")
+    implementation(libs.databinding.runtime)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     annotationProcessor("androidx.room:room-compiler:2.6.0")
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -47,4 +53,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:3.4.1")
     implementation("com.squareup.okhttp3:logging-interceptor:3.4.1")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.1.1")
+
+    implementation ("com.mikepenz:aboutlibraries-core:11.2.1")
 }
