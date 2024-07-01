@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void setCountriesResponse() {
-        mCountriesResponseViewModel.getCountriesResponse().observe(this, CountriesResponse -> {
+        mCountriesResponseViewModel.getCountries().observe(this, CountriesResponse -> {
             if(CountriesResponse == null) {
                 Log.e("MainActivity", "CountriesResponse is null");
             } else {

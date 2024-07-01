@@ -20,7 +20,7 @@ public class CountriesResponseViewModel extends ViewModel {
         this.mCountriesResponse = mCountryRepository.fetchCountries();
     }
 
-    public LiveData<CountriesResponse> getCountriesResponse(){
+    public LiveData<CountriesResponse> getCountries(){
         return this.mCountriesResponse;
     }
 
