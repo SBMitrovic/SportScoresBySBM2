@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("MainActivity", "CountriesResponse is not null");
                 this.kountryList = CountriesResponse;
                 // Ovako ne radi this.CountriesResponse = CountriesResponse.getResponse();
-                Log.e("MainActivity", this.kountryList.getResponse().get(2).getName());
+                Log.e("MainActivity", this.kountryList.getResponse().get(80).getName());
                 TextView api_keyView = findViewById(R.id.api_keyView);
                 api_keyView.setText(kountryList.getResponse().get(2).getName());
             }
@@ -89,9 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    //3 Standings activity (ulazni parameteri proslijedjeni iz prve komponente)
+    // leagueID i starting year of season
     public void setStandingsResponse() {
-        mStangingsViewModel.getStandingsResponse(22,"2023").observe(this, StandingsResponse -> {
+        mStangingsViewModel.getStandingsResponse(29,"2023").observe(this, StandingsResponse -> {
             if(StandingsResponse == null) {
                 Log.e("MainActivity", "StandingsResponse is null");
             } else {
@@ -104,10 +105,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
+    // 2.Competitions ACTIVITY
     public void setCompetitions() {
-        mCompetitionsViewModel.getCompetitionsResponse("Serbia").observe(this, CompetitionsResponse -> {
+        mCompetitionsViewModel.getCompetitionsResponse("England").observe(this, CompetitionsResponse -> {
             if(CompetitionsResponse == null) {
                 Log.e("MainActivity", "CompetitionResponse is null");
             } else {
