@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CountryList {
+public class CountriesResponse {
 
     @SerializedName("response")
     private List<Country> response;
 
-    public CountryList(List<Country> response) {
+    public CountriesResponse(List<Country> response) {
         this.response = response;
     }
 
