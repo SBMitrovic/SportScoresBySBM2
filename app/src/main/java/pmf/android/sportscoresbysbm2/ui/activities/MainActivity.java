@@ -1,52 +1,54 @@
 package pmf.android.sportscoresbysbm2.ui.activities;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.WindowDecorActionBar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.Manifest;
-import android.widget.Toast;
-
 import java.util.List;
 
 import pmf.android.sportscoresbysbm2.R;
-import pmf.android.sportscoresbysbm2.SportScoresBySBM;
-import pmf.android.sportscoresbysbm2.data.model.CompetitionsByCountry;
+import pmf.android.sportscoresbysbm2.data.model.CompetitionsResponse;
+import pmf.android.sportscoresbysbm2.data.model.CountriesResponse;
 import pmf.android.sportscoresbysbm2.data.model.Country;
-import pmf.android.sportscoresbysbm2.data.model.CountryList;
+import pmf.android.sportscoresbysbm2.data.model.CountriesResponse;
 import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
-import pmf.android.sportscoresbysbm2.data.database.ApplicationRoomDatabase;
-import pmf.android.sportscoresbysbm2.data.database.TeamEntityDao;
+import pmf.android.sportscoresbysbm2.data.repository.StandingsRepository;
 import pmf.android.sportscoresbysbm2.util.APIFootballInterface;
-import pmf.android.sportscoresbysbm2.util.RetrofitMaker;
-import pmf.android.sportscoresbysbm2.viewmodel.CountryListViewModel;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import pmf.android.sportscoresbysbm2.viewmodel.CompetitionsViewModel;
+import pmf.android.sportscoresbysbm2.viewmodel.CountriesResponseViewModel;
+import pmf.android.sportscoresbysbm2.viewmodel.StandingsResponseViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    //CountriesViewModel
+    private CountriesResponseViewModel mCountriesResponseViewModel;
+    private LiveData<CountriesResponse> mCountriesResponse;
 
-    private CountryListViewModel mCountryListViewModel;
-    private LiveData<CountryList> mCountryList;
+    //StandingsResponseViewModel
+    private StandingsResponseViewModel mStangingsViewModel;
+    private LiveData<StandingsResponse> mStandingsResponse;
+
+
+    //CompetitionsByCountry ViewModel
+    private CompetitionsViewModel mCompetitionsViewModel;
+    private LiveData<CompetitionsResponse> mCompetitionsResponse;
+
+
+
     int code;
     static final int PERMISSIONS_REQUEST_INTERNET = 1;
     APIFootballInterface apiInterface;
-    CountryList kountryList;
-    List<Country> countryList;
-    CompetitionsByCountry CompetitionsByCountryList;
+    CountriesResponse kountryList;
+    List<Country> CountriesResponse;
+    CompetitionsResponse competitionsResponseList;
     StandingsResponse currentLeague;
 
     @Override
@@ -61,23 +63,59 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TextView api_keyView = findViewById(R.id.api_keyView);
-        mCountryListViewModel = new ViewModelProvider(this).get(CountryListViewModel.class);
-        setCountryList();
+        mCountriesResponseViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
+        setCountriesResponse();
+        mStangingsViewModel = new ViewModelProvider(this).get(StandingsResponseViewModel.class);
+        setStandingsResponse();
+        mCompetitionsViewModel = new ViewModelProvider(this).get(CompetitionsViewModel.class);
+        setCompetitions();
     }
 
 
 
-    public void setCountryList() {
-        mCountryListViewModel.getCountryList().observe(this, countryList -> {
-            if(countryList == null) {
-                Log.e("MainActivity", "CountryList is null");
+    public void setCountriesResponse() {
+        mCountriesResponseViewModel.getCountries().observe(this, CountriesResponse -> {
+            if(CountriesResponse == null) {
+                Log.e("MainActivity", "CountriesResponse is null");
             } else {
-                Log.e("MainActivity", "CountryList is not null");
-                this.kountryList = countryList;
-                // Ovako ne radi this.countryList = countryList.getResponse();
-                Log.e("MainActivity", this.kountryList.getResponse().get(0).getName());
+                Log.e("MainActivity", "CountriesResponse is not null");
+                this.kountryList = CountriesResponse;
+                // Ovako ne radi this.CountriesResponse = CountriesResponse.getResponse();
+                Log.e("MainActivity", this.kountryList.getResponse().get(80).getName());
                 TextView api_keyView = findViewById(R.id.api_keyView);
-                api_keyView.setText(kountryList.getResponse().get(0).getName());
+                api_keyView.setText(kountryList.getResponse().get(2).getName());
+            }
+        });
+
+    }
+
+    //3 Standings activity (ulazni parameteri proslijedjeni iz prve komponente)
+    // leagueID i starting year of season
+    public void setStandingsResponse() {
+        mStangingsViewModel.getStandingsResponse(29,"2023").observe(this, StandingsResponse -> {
+            if(StandingsResponse == null) {
+                Log.e("MainActivity", "StandingsResponse is null");
+            } else {
+                Log.e("MainActivityStandingsResponse", "StandingsResponse is not null");
+                // Ovako ne radi this.CountriesResponse = CountriesResponse.getResponse();
+                Log.e("MainActivityStandingsResponse", StandingsResponse.getResponse().get(0).getLeague().getName());
+                TextView leagueStanding = findViewById(R.id.leagueStanding);
+                leagueStanding.setText(StandingsResponse.getResponse().get(0).getLeague().getName());
+            }
+        });
+
+    }
+    // 2.Competitions ACTIVITY
+    public void setCompetitions() {
+        mCompetitionsViewModel.getCompetitionsResponse("England").observe(this, CompetitionsResponse -> {
+            if(CompetitionsResponse == null) {
+                Log.e("MainActivity", "CompetitionResponse is null");
+            } else {
+                Log.e("CompetitionResponse", "CompetitionResponse is not null");
+                // Ovako ne radi this.CountriesResponse = CountriesResponse.getResponse();
+                Log.e("MainActivityStandingsResponse", CompetitionsResponse.getCompetitions().get(0).getLeague().getName());
+                TextView competitionOnPosZeroForCountry = findViewById(R.id.competitionOnPosZeroForCountry);
+                competitionOnPosZeroForCountry.setText(CompetitionsResponse.getCompetitions().get(0).getLeague().getName());
             }
         });
 

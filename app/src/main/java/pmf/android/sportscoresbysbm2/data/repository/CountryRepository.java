@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import pmf.android.sportscoresbysbm2.data.model.CountryList;
+import pmf.android.sportscoresbysbm2.data.model.CountriesResponse;
 import pmf.android.sportscoresbysbm2.util.APIFootballInterface;
 import pmf.android.sportscoresbysbm2.util.RetrofitMaker;
 import retrofit2.Call;
@@ -38,18 +38,18 @@ public class CountryRepository {
 
 
 
-    public LiveData<CountryList> fetchCountriesList() {
-        final MutableLiveData<CountryList> data = new MutableLiveData<>();
-        mApiFootballInterface.getCountries().enqueue(new Callback<CountryList>() {
+    public LiveData<CountriesResponse> fetchCountries() {
+        final MutableLiveData<CountriesResponse> data = new MutableLiveData<>();
+        mApiFootballInterface.getCountries().enqueue(new Callback<CountriesResponse>() {
             @Override
-            public void onResponse(Call<CountryList> call, Response<CountryList> response) {
+            public void onResponse(Call<CountriesResponse> call, Response<CountriesResponse> response) {
                 Log.i(LOG, "Response successfull");
                 data.setValue(response.body());
-                Log.i("Country name : ", response.body().getResponse().get(1).getName());
+                Log.i("Country name[1] : ", response.body().getResponse().get(1).getName());
             }
 
             @Override
-            public void onFailure(Call<CountryList> call, Throwable throwable) {
+            public void onFailure(Call<CountriesResponse> call, Throwable throwable) {
                     Log.e(LOG, throwable.getMessage());
                     data.setValue(null);
             }
