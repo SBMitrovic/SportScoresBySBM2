@@ -39,18 +39,8 @@ public class CountriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
-       // EdgeToEdge.enable(this);
-      /*  ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recyclerViewCountries), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-
-
-        });*/
         initialization();
         dobaviCountries();
-        //adapter.notifyDataSetChanged();
-
     }
 
     /*
@@ -79,30 +69,29 @@ public class CountriesActivity extends AppCompatActivity {
 
      */
     private void initialization() {
-        recyclerViewCountries = (RecyclerView) findViewById(R.id.recyclerViewCountries);
-
+        recyclerViewCountries = findViewById(R.id.recyclerViewCountries);
+        recyclerViewCountries.setHasFixedSize(true);
 
         // use a linear layout manager
-
         layoutManager = new LinearLayoutManager(CountriesActivity.this);
-
         recyclerViewCountries.setLayoutManager(layoutManager);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        recyclerViewCountries.setHasFixedSize(true);
+
+        // Initialize localList
+        localList = new ArrayList<>();
 
         // adapter
         adapter = new CountriesAdapter(this, localList);
         recyclerViewCountries.setAdapter(adapter);
 
         // View Model
-
-
         mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
 
+        // Call dobaviCountries() after the adapter is set
+        dobaviCountries();
     }
-
     public void dobaviCountries(){
         mCoutnriesViewModel.getCountries().observe(this, CountriesResponse -> {
             if(CountriesResponse == null) {
@@ -112,18 +101,16 @@ public class CountriesActivity extends AppCompatActivity {
                 mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
 
                 localList.addAll(CountriesResponse.getResponse());
-                adapter.notifyDataSetChanged();
+
+                // Set the adapter to the RecyclerView here
+                adapter = new CountriesAdapter(this, localList);
+                recyclerViewCountries.setAdapter(adapter);
 
                 Log.e("Countries activity", "CountriesResponse is not null");
-                // Ovako ne radi this.CountriesResponse = CountriesResponse.getResponse();
                 Log.e("Countries activity ", localList.get(67).getName());
             }
         });
-
     }
-
-
-
 /*
     public void dobaviCountries(){
         List<Country> localList = new ArrayList<Country>();
