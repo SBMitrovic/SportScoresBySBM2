@@ -46,7 +46,6 @@ public class CompetitionsActivity extends AppCompatActivity {
         });
 
         initialization();
-        getCompetitions();
     }
 
     private void initialization() {
@@ -75,7 +74,7 @@ public class CompetitionsActivity extends AppCompatActivity {
 
     private void getCompetitions(){
 
-        mCompetitionsViewModel.getCompetitionsResponse("Serbia").observe(this, competitionsResponse -> {
+        mCompetitionsViewModel.getCompetitionsResponse("England").observe(this, competitionsResponse -> {
             if(competitionsResponse == null) {
                 Log.e("Competitions activity", "CompetitionsResponse is null");
             } else {

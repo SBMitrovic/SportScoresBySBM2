@@ -41,7 +41,6 @@ public class CountriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
         initialization();
-        getCountries();
     }
 
     /*
@@ -108,7 +107,7 @@ public class CountriesActivity extends AppCompatActivity {
                 adapter = new CountriesAdapter(this, mCountryList);
                 recyclerViewCountries.setAdapter(adapter);
 
-                Log.e("Countries activity", "CountriesResponse is not null");
+                Log.e("Countries activity, size : ", "CountriesResponse is not null size : " + mCountryList.size());
                 Log.e("Countries activity ", mCountryList.get(67).getName());
             }
         });

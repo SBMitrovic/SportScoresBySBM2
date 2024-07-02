@@ -27,7 +27,12 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
 
     public CountriesAdapter(Context context, List<Country> countryList) {
         this.context = context;
-        this.countryList = countryList;
+        if(this.countryList!=null){
+            this.countryList.clear();
+            this.countryList.addAll(countryList);
+        }else{
+            this.countryList = countryList;
+        }
     }
 
     @NonNull
@@ -40,11 +45,14 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
     }
     @Override
     public void onBindViewHolder(@NonNull CountriesViewHolder holder, int position) {
-        String flagUrl = "https://flags.fmcdn.net/data/flags/h80/" +countryList.get(position).getCode().toLowerCase() + ".png";
+        String flagUrl = "";
+        if(countryList.get(position).getCode() != null) {
+            flagUrl = "https://flags.fmcdn.net/data/flags/h80/" + countryList.get(position).getCode().toLowerCase() + ".png";
+            Picasso.get().load(flagUrl).into(holder.countryFlag);
 
+        }
         holder.countryNameListItem.setText(countryList.get(position).getName());
         Log.i("CountriesFlag", "flagUrl: " + flagUrl);
-        Picasso.get().load(flagUrl).into(holder.countryFlag);
     }
 
     @Override

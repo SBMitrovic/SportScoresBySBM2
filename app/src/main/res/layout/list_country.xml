@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/countryNameListItem"
-            android:layout_width="427dp"
+            android:layout_width="347dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
@@ -32,7 +32,7 @@
 
         <ImageView
             android:id="@+id/countryFlag"
-            android:layout_width="56dp"
+            android:layout_width="match_parent"
             android:layout_height="78dp"
             android:layout_marginEnd="32dp"
             android:clickable="true" />

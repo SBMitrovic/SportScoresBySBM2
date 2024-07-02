@@ -10,8 +10,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCompetitions"
-        android:layout_width="311dp"
-        android:layout_height="631dp"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="50dp" />
+        android:layout_width="410dp"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="2dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
