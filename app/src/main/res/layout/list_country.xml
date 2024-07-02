@@ -1,24 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/countries_container">
-    <LinearLayout
+
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
-            android:id="@+id/textViewListItem"
-            android:text="TEST ITEM"
-            android:layout_width="wrap_content"
+            android:id="@+id/countryNameListItem"
+            android:layout_width="427dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:text="TEST ITEM"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#22000000" />
+
+        <TextView
+            android:id="@+id/textViewListItem"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:text="Country Name"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/countryFlagListItem"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:text="Country Name"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/countryFlag"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="32dp"
+            android:clickable="true"
+            />
+
+    </TableLayout>
+
+
+
+
+</ScrollView>

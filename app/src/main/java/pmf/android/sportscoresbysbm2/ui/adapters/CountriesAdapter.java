@@ -6,16 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.model.Country;
 import pmf.android.sportscoresbysbm2.ui.activities.CountriesActivity;
-import pmf.android.sportscoresbysbm2.ui.viewholder.ToDoViewHolder;
+import pmf.android.sportscoresbysbm2.ui.viewholder.CountriesViewHolder;
 
 /*
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.MyViewHolder> {
@@ -70,7 +73,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.MyVi
 } */
 
 
-public class CountriesAdapter extends RecyclerView.Adapter<ToDoViewHolder> {
+public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> {
     private Context context;
     private List<Country> countryList;
 
@@ -81,15 +84,21 @@ public class CountriesAdapter extends RecyclerView.Adapter<ToDoViewHolder> {
 
     @NonNull
     @Override
-    public ToDoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CountriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_country, parent, false);
-        ToDoViewHolder vh = new ToDoViewHolder(view, countryList);
+        CountriesViewHolder vh = new CountriesViewHolder(view, countryList);
         return vh;
 
     }
     @Override
-    public void onBindViewHolder(@NonNull ToDoViewHolder holder, int position) {
-        holder.textViewListItem.setText(countryList.get(position).getName());
+    public void onBindViewHolder(@NonNull CountriesViewHolder holder, int position) {
+        String flagUrl = "https://flags.fmcdn.net/data/flags/h80/" +countryList.get(position).getCode().toLowerCase() + ".png";
+
+        holder.textViewListItem.setText(countryList.get(position).getCode());
+        holder.countryFlagListitem.setText(flagUrl);
+        holder.countryNameListItem.setText(countryList.get(position).getName());
+        Log.i("CountriesFlag", "flagUrl: " + flagUrl);
+        Picasso.get().load(flagUrl).into(holder.countryFlag);
     }
 
     @Override

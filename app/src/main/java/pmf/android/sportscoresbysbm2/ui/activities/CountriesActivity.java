@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,7 +74,7 @@ public class CountriesActivity extends AppCompatActivity {
         recyclerViewCountries.setHasFixedSize(true);
 
         // use a linear layout manager
-        layoutManager = new LinearLayoutManager(CountriesActivity.this);
+        layoutManager = new GridLayoutManager(CountriesActivity.this, 2);
         recyclerViewCountries.setLayoutManager(layoutManager);
 
         // use this setting to improve performance if you know that changes

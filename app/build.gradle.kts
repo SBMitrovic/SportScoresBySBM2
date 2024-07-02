@@ -54,7 +54,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:3.4.1")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.1.1")
     implementation ("com.mikepenz:aboutlibraries-core:11.2.1")
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha13")
     // To use constraintlayout in compose
