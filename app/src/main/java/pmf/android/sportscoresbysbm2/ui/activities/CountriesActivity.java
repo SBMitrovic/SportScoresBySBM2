@@ -41,7 +41,7 @@ public class CountriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
         initialization();
-        dobaviCountries();
+        getCountries();
     }
 
     /*
@@ -73,6 +73,7 @@ public class CountriesActivity extends AppCompatActivity {
         recyclerViewCountries = findViewById(R.id.recyclerViewCountries);
         recyclerViewCountries.setHasFixedSize(true);
 
+
         // use a linear layout manager
         layoutManager = new GridLayoutManager(CountriesActivity.this, 2);
         recyclerViewCountries.setLayoutManager(layoutManager);
@@ -81,19 +82,19 @@ public class CountriesActivity extends AppCompatActivity {
         // in content do not change the layout size of the RecyclerView
 
         // Initialize localList
-        localList = new ArrayList<>();
+        mCountryList = new ArrayList<>();
 
         // adapter
-        adapter = new CountriesAdapter(this, localList);
+        adapter = new CountriesAdapter(this, mCountryList);
         recyclerViewCountries.setAdapter(adapter);
 
         // View Model
         mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
 
         // Call dobaviCountries() after the adapter is set
-        dobaviCountries();
+        getCountries();
     }
-    public void dobaviCountries(){
+    public void getCountries(){
         mCoutnriesViewModel.getCountries().observe(this, CountriesResponse -> {
             if(CountriesResponse == null) {
                 Log.e("MainActivity", "CountriesResponse is null");
@@ -101,14 +102,14 @@ public class CountriesActivity extends AppCompatActivity {
             } else {
                 mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
 
-                localList.addAll(CountriesResponse.getResponse());
+                mCountryList.addAll(CountriesResponse.getResponse());
 
                 // Set the adapter to the RecyclerView here
-                adapter = new CountriesAdapter(this, localList);
+                adapter = new CountriesAdapter(this, mCountryList);
                 recyclerViewCountries.setAdapter(adapter);
 
                 Log.e("Countries activity", "CountriesResponse is not null");
-                Log.e("Countries activity ", localList.get(67).getName());
+                Log.e("Countries activity ", mCountryList.get(67).getName());
             }
         });
     }

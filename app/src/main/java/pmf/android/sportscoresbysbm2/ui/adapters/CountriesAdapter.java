@@ -20,58 +20,6 @@ import pmf.android.sportscoresbysbm2.data.model.Country;
 import pmf.android.sportscoresbysbm2.ui.activities.CountriesActivity;
 import pmf.android.sportscoresbysbm2.ui.viewholder.CountriesViewHolder;
 
-/*
-public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.MyViewHolder> {
-
-    private Context context;
-    private List<Country> countryList;
-
-    public CountriesAdapter(Context context, List<Country> newCountryList) {
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_countries, viewGroup, false);
-        return new MyViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
-
-            Country country = countryList.get(position);
-            //ispisujemo ime drzave
-            //viewHolder.nase_polje.setText(country.getName());
-            viewHolder.bind(country);
-    }
-
-    @Override
-    public int getItemCount() {
-        Log.i("CountriesAdapter ITEM COUNT", String.valueOf(countryList.size()));
-        return countryList.size();
-    }
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private final TextView nase_polje;
-
-        public MyViewHolder (View view){
-            super(view);
-            nase_polje=(TextView) view.findViewById(R.id.nase_polje);
-
-        }
-        public void bind(Country country) {
-            // Bind data to views
-        }
-
-      / public TextView getTextView() {
-            return textView;
-        }
-
-
-    }
-} */
-
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> {
     private Context context;
@@ -86,7 +34,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
     @Override
     public CountriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_country, parent, false);
-        CountriesViewHolder vh = new CountriesViewHolder(view, countryList);
+        CountriesViewHolder vh = new CountriesViewHolder(view);
         return vh;
 
     }
@@ -94,8 +42,6 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
     public void onBindViewHolder(@NonNull CountriesViewHolder holder, int position) {
         String flagUrl = "https://flags.fmcdn.net/data/flags/h80/" +countryList.get(position).getCode().toLowerCase() + ".png";
 
-        holder.textViewListItem.setText(countryList.get(position).getCode());
-        holder.countryFlagListitem.setText(flagUrl);
         holder.countryNameListItem.setText(countryList.get(position).getName());
         Log.i("CountriesFlag", "flagUrl: " + flagUrl);
         Picasso.get().load(flagUrl).into(holder.countryFlag);
