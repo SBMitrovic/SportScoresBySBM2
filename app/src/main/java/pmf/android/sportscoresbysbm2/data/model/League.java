@@ -18,6 +18,8 @@ public class League {
     private Long season;
     private List<List<StandingsResponse.Standing>> standings;
 
+    private int standingsInnerListSize;
+
     @Ignore
     public League(@NonNull Long id, String name, String country, String logo, String flag, Long season, List<List<StandingsResponse.Standing>> standings) {
         this.id = id;
@@ -86,5 +88,19 @@ public class League {
 
     public void setStandings(List<List<StandingsResponse.Standing>> standings) {
         this.standings = standings;
+    }
+
+    public List<StandingsResponse.Standing> getStandingsSimple() {
+        int counter = 0;
+        List<StandingsResponse.Standing> list = new java.util.ArrayList<>();
+
+        for (int i = 0; i < standings.size(); i++) {
+            for (int j = 0; j < standings.get(i).size(); j++) {
+                list.add(standings.get(i).get(j));
+                counter++;
+            }
+        }
+        standingsInnerListSize = counter;
+        return list;
     }
 }

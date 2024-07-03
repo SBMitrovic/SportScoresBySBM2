@@ -48,7 +48,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
         String flagUrl = "";
         if(countryList.get(position).getCode() != null) {
             flagUrl = "https://flags.fmcdn.net/data/flags/h80/" + countryList.get(position).getCode().toLowerCase() + ".png";
-            Picasso.get().load(flagUrl).into(holder.countryFlag);
+                Picasso.get().load(flagUrl).into(holder.countryFlag);
 
         }
         holder.countryNameListItem.setText(countryList.get(position).getName());
