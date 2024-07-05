@@ -28,10 +28,12 @@ import java.util.List;
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.model.CountriesResponse;
 import pmf.android.sportscoresbysbm2.data.model.Country;
+import pmf.android.sportscoresbysbm2.data.repository.SingleTeamRepository;
 import pmf.android.sportscoresbysbm2.ui.adapters.CountriesAdapter;
 import pmf.android.sportscoresbysbm2.ui.viewholder.CountriesViewHolder;
 import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 import pmf.android.sportscoresbysbm2.viewmodel.CountriesResponseViewModel;
+import pmf.android.sportscoresbysbm2.viewmodel.SingleTeamViewModel;
 
 public class CountriesActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
 
@@ -80,6 +82,7 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
 
         // Call dobaviCountries() after the adapter is set
         getCountries();
+        getSingleTeam();
     }
 
     public void getCountries(){
@@ -88,7 +91,6 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
             if(CountriesResponse == null) {
                 Log.e("MainActivity", "CountriesResponse is null");
             } else {
-                mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
 
                 mCountryList.addAll(CountriesResponse.getResponse());
                 // Set the adapter to the RecyclerView here
@@ -104,6 +106,16 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
         });
     }
 
+    public void getSingleTeam(){
+        SingleTeamViewModel mSingleTeamViewModel = new ViewModelProvider(this).get(SingleTeamViewModel.class);
+        mSingleTeamViewModel.getSingleTeamResponse(37L).observe(this, singleTeamResponse -> {
+            if(singleTeamResponse == null) {
+                Log.e("SingleTeamActivity", "singleTeamResponse is null");
+            } else {
+                Log.e("SingleTeamActivity", singleTeamResponse.getResponse().get(0).getTeam().getName());
+            }
+        });
+    }
 
 
     @Override

@@ -105,6 +105,7 @@ public class CompetitionsActivity extends AppCompatActivity implements RecyclerV
         intent.putExtra("leagueName", mCompetitionsList.get(position).getLeague().getName());
         Long id = mCompetitionsList.get(position).getLeague().getId();
         intent.putExtra("leagueId",id);
+        Log.i("leagueId", String.valueOf(id));
         intent.putExtra("countryName", intent.getStringExtra("countryName"));
         intent.putExtra("seasonYear", currentSeasonYear);
 
@@ -115,7 +116,6 @@ public class CompetitionsActivity extends AppCompatActivity implements RecyclerV
 
         if(mCompetitionsList.get(position).getSeasons().get(seasons.size()-1).getCoverage().isStandings() == true) {
             startActivity(intent);
-
         }else{
             Toast.makeText(this, "Standings is not available for this competition", Toast.LENGTH_SHORT).show();
             //Eventualno prikazati pobjednika

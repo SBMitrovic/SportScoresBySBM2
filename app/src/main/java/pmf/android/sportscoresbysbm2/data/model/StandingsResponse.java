@@ -204,6 +204,19 @@ public class StandingsResponse {
         private Long id;
         private String name;
         private String logo;
+        private boolean national;
+        private int founded;
+        private String country;
+
+        public Team(Long id, String name, String logo, boolean national, int founded, String country) {
+            this.id = id;
+            this.name = name;
+            this.logo = logo;
+            this.national = national;
+            this.founded = founded;
+            this.country = country;
+        }
+
 
         public Team(Long id, String name, String logo) {
             this.id = id;
@@ -233,6 +246,30 @@ public class StandingsResponse {
 
         public void setLogo(String logo) {
             this.logo = logo;
+        }
+
+        public int getFounded() {
+            return founded;
+        }
+
+        public void setFounded(int founded) {
+            this.founded = founded;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public boolean isNational() {
+            return national;
+        }
+
+        public void setNational(boolean national) {
+            this.national = national;
         }
     }
 

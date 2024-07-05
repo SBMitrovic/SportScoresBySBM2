@@ -46,9 +46,13 @@ public class StandingsRepository {
             public void onResponse(Call<StandingsResponse> call, Response<StandingsResponse> response) {
                 Log.i(LOG, "Response successfull");
                 data.setValue(response.body());
+                if(response.body().getResponse().get(0).getLeague().getName() != null){
                 Log.i("League name ", response.body().getResponse().get(0).getLeague().getName());
+                }
+            else{
+                Log.i("League name ", "null");
             }
-
+    }
             @Override
             public void onFailure(Call<StandingsResponse> call, Throwable throwable) {
                 Log.e(LOG, throwable.getMessage());

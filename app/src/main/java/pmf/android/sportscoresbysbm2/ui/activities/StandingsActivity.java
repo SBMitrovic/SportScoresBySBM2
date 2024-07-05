@@ -24,10 +24,11 @@ import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
 import pmf.android.sportscoresbysbm2.ui.adapters.CompetitionAdapter;
 import pmf.android.sportscoresbysbm2.ui.adapters.CountriesAdapter;
 import pmf.android.sportscoresbysbm2.ui.adapters.StandingsAdapter;
+import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 import pmf.android.sportscoresbysbm2.viewmodel.CompetitionsViewModel;
 import pmf.android.sportscoresbysbm2.viewmodel.StandingsResponseViewModel;
 
-public class StandingsActivity extends AppCompatActivity {
+public class StandingsActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
 
     private StandingsResponseViewModel mStandingsViewModel;
     private List<StandingsResponse.Standing> mStandingsList;
@@ -63,7 +64,7 @@ public class StandingsActivity extends AppCompatActivity {
         mStandingsList = new ArrayList<>();
 
         //Adapter
-        adapter = new StandingsAdapter(this, mStandingsList);
+        adapter = new StandingsAdapter(this, mStandingsList, this);
         recyclerViewStandings.setAdapter(adapter);
 
         //ViewModel
@@ -90,12 +91,20 @@ public class StandingsActivity extends AppCompatActivity {
                 mStandingsList.addAll(standingsResponse.getResponse().get(0).getLeague().getStandingsSimple());
 
                 // Set the adapter to the RecyclerView here
-                adapter = new StandingsAdapter(this, mStandingsList);
+                adapter = new StandingsAdapter(this, mStandingsList, this);
                 recyclerViewStandings.setAdapter(adapter);
 
                 Log.e("Standings activity", "Standings is not null");
                 Log.e("Standings activity ", mStandingsList.get(1).getTeam().getName());
             }
         });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+        intent = new Intent(this, SingleTeamActivity.class);
+        intent.putExtra("teamId", mStandingsList.get(position).getTeam().getId());
+        startActivity(intent);
     }
 }
