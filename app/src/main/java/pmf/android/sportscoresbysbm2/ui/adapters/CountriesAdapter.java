@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.util.Log;
 
@@ -19,14 +20,17 @@ import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.model.Country;
 import pmf.android.sportscoresbysbm2.ui.activities.CountriesActivity;
 import pmf.android.sportscoresbysbm2.ui.viewholder.CountriesViewHolder;
+import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> {
     private Context context;
     private List<Country> countryList;
+    private final RecyclerViewClickListenerInterface listener;
 
-    public CountriesAdapter(Context context, List<Country> countryList) {
+    public CountriesAdapter(Context context, List<Country> countryList, RecyclerViewClickListenerInterface listener) {
         this.context = context;
+        this.listener = listener;
         if(this.countryList!=null){
             this.countryList.clear();
             this.countryList.addAll(countryList);
@@ -38,9 +42,8 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
     @NonNull
     @Override
     public CountriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_country, parent, false);
-        CountriesViewHolder vh = new CountriesViewHolder(view);
-        return vh;
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.list_country, parent, false);
+        return new CountriesViewHolder(view, listener);
 
     }
     @Override
@@ -52,7 +55,6 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
 
         }
         holder.countryNameListItem.setText(countryList.get(position).getName());
-        Log.i("CountriesFlag", "flagUrl: " + flagUrl);
     }
 
     @Override

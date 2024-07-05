@@ -20,7 +20,7 @@ public class StandingsResponseViewModel extends ViewModel {
         this.mStadningsRepository = StandingsRepository.getInstance();
     }
 
-    public LiveData<StandingsResponse> getStandingsResponse(int leagueId, String season){
+    public LiveData<StandingsResponse> getStandingsResponse(long leagueId, String season){
         return this.mStadningsRepository.fetchStadnings(leagueId, season);
     }
 }

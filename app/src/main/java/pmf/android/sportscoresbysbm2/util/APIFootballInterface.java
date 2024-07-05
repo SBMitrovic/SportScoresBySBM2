@@ -20,6 +20,6 @@ public interface APIFootballInterface {
 
     @Headers("x-rapidapi-key:"+APICredentials.API_KEY)
     @GET("standings")
-    Call<StandingsResponse> getStandingsByLeague(@Query("league") int leagueId, @Query("season") String season);
+    Call<StandingsResponse> getStandingsByLeague(@Query("league") long leagueId, @Query("season") String season);
 
 }

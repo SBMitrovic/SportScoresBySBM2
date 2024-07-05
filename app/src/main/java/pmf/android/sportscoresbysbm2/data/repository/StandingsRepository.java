@@ -39,7 +39,7 @@ public class StandingsRepository {
 
 
 
-    public LiveData<StandingsResponse> fetchStadnings(int leagueId, String season) {
+    public LiveData<StandingsResponse> fetchStadnings(long leagueId, String season) {
         final MutableLiveData<StandingsResponse> data = new MutableLiveData<>();
         mApiFootballInterface.getStandingsByLeague(leagueId, season).enqueue(new Callback<StandingsResponse>() {
             @Override

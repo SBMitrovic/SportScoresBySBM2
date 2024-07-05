@@ -45,6 +45,14 @@ public class StandingsResponse {
         this.response = response;
     }
 
+
+    /*
+    public boolean haveStandings(){
+        return this.getResponse().get(0).getLeague().getStandings().get
+    }
+
+    */
+
     public class Response {
         private League league;
 

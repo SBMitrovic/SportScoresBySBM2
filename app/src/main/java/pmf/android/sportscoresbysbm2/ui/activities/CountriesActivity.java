@@ -1,8 +1,13 @@
 package pmf.android.sportscoresbysbm2.ui.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -24,18 +29,22 @@ import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.model.CountriesResponse;
 import pmf.android.sportscoresbysbm2.data.model.Country;
 import pmf.android.sportscoresbysbm2.ui.adapters.CountriesAdapter;
+import pmf.android.sportscoresbysbm2.ui.viewholder.CountriesViewHolder;
+import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 import pmf.android.sportscoresbysbm2.viewmodel.CountriesResponseViewModel;
 
-public class CountriesActivity extends AppCompatActivity {
+public class CountriesActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
 
     private CountriesResponseViewModel mCoutnriesViewModel;
     private List<Country> mCountryList;
     public LiveData<CountriesResponse> countriesResponseLiveData;
     private LinearLayoutManager layoutManager;
+
+
+
     List<Country> localList = new ArrayList<Country>();
     RecyclerView recyclerViewCountries;
     CountriesAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,31 +52,10 @@ public class CountriesActivity extends AppCompatActivity {
         initialization();
     }
 
-    /*
-    public void setCountriesResponse() {
-        List<Country> localList = new ArrayList<Country>();
-        mCoutnriesViewModel.getCountriesResponse().observe(this, CountriesResponse -> {
-            if(CountriesResponse == null) {
-                Log.e("MainActivity", "CountriesResponse is null");
-                Country country = new Country("Croatia", "HR", "https://www.countryflags.io/HR/shiny/64.png");
-            } else {
-                mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
-                RecyclerView recyclerView = findViewById(R.id.recyclerViewCountries);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                localList.addAll(CountriesResponse.getResponse());
-                Log.e("ALB", localList.get(0).getName());
-                recyclerView.setAdapter(new CountriesAdapter(this, localList));
-
-                Log.e("MainActivity", "CountriesResponse is not null");
-                // Ovako ne radi this.CountriesResponse = CountriesResponse.getResponse();
-                Log.e("Countries activity ", localList.get(67).getName());
-            }
-        });
-
-    }
 
 
-     */
+
+
     private void initialization() {
         recyclerViewCountries = findViewById(R.id.recyclerViewCountries);
         recyclerViewCountries.setHasFixedSize(true);
@@ -84,7 +72,7 @@ public class CountriesActivity extends AppCompatActivity {
         mCountryList = new ArrayList<>();
 
         // adapter
-        adapter = new CountriesAdapter(this, mCountryList);
+        adapter = new CountriesAdapter(this, mCountryList, this);
         recyclerViewCountries.setAdapter(adapter);
 
         // View Model
@@ -93,48 +81,36 @@ public class CountriesActivity extends AppCompatActivity {
         // Call dobaviCountries() after the adapter is set
         getCountries();
     }
+
     public void getCountries(){
+
         mCoutnriesViewModel.getCountries().observe(this, CountriesResponse -> {
             if(CountriesResponse == null) {
                 Log.e("MainActivity", "CountriesResponse is null");
-                Country country = new Country("Croatia", "HR", "https://www.countryflags.io/HR/shiny/64.png");
             } else {
                 mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
 
                 mCountryList.addAll(CountriesResponse.getResponse());
-
                 // Set the adapter to the RecyclerView here
-                adapter = new CountriesAdapter(this, mCountryList);
+                adapter = new CountriesAdapter(this, mCountryList, this);
                 recyclerViewCountries.setAdapter(adapter);
 
                 Log.e("Countries activity, size : ", "CountriesResponse is not null size : " + mCountryList.size());
                 Log.e("Countries activity ", mCountryList.get(67).getName());
+
+
+
             }
         });
     }
-/*
-    public void dobaviCountries(){
-        List<Country> localList = new ArrayList<Country>();
-        // Log.e("value", mCoutnriesViewModel.getCountries().getValue() + "");
-        mCoutnriesViewModel.getCountries().observe(this, CountriesResponse -> {
-            if(CountriesResponse == null) {
-                Log.e("MainActivity", "CountriesResponse is null");
-                Country country = new Country("Croatia", "HR", "https://www.countryflags.io/HR/shiny/64.png");
-            } else {
-                mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
-                recyclerView  = (RecyclerView) findViewById(R.id.recyclerViewCountries);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                localList.addAll(CountriesResponse.getResponse());
-                Log.e("ALB", localList.get(0).getName());
-                adapter = new CountriesAdapter(this, localList);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
 
-                Log.e("Countries activity", "CountriesResponse is not null");
-                // Ovako ne radi this.CountriesResponse = CountriesResponse.getResponse();
-                Log.e("Countries activity ", localList.get(67).getName());
-            }
-        });
 
-    } */
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(CountriesActivity.this, CompetitionsActivity.class);
+        intent.putExtra("countryName", mCountryList.get(position).getName());
+        Log.i("countryClicked", mCountryList.get(position).getName());
+        startActivity(intent);
+    }
 }

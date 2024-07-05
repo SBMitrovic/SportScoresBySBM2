@@ -1,5 +1,6 @@
 package pmf.android.sportscoresbysbm2.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -34,6 +35,7 @@ public class StandingsActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     RecyclerView recyclerViewStandings;
     StandingsAdapter adapter;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +69,19 @@ public class StandingsActivity extends AppCompatActivity {
         //ViewModel
         mStandingsViewModel = new ViewModelProvider(this).get(StandingsResponseViewModel.class);
 
-        getStandings();
+        intent = getIntent();
+
+        long leagueId = intent.getLongExtra("leagueId", 0);
+        Log.i("Standings activity ID ", String.valueOf(leagueId));
+        String season = intent.getStringExtra("seasonYear");
+        getStandings(leagueId, season);
 
 
     }
 
-    private void getStandings(){
+    private void getStandings(long leagueId, String season) {
 
-        mStandingsViewModel.getStandingsResponse(39, "2020").observe(this, standingsResponse -> {
+        mStandingsViewModel.getStandingsResponse(leagueId, season).observe(this, standingsResponse -> {
             if(standingsResponse == null) {
                 Log.e("Competitions activity", "CompetitionsResponse is null");
             } else {

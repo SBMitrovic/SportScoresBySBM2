@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activities.CountriesActivity">
+    tools:context=".ui.activities.CountriesActivity"
+    >
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCountries"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
 
 </LinearLayout>
