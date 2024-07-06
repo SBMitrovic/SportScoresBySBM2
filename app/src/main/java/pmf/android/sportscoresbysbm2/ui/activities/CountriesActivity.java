@@ -74,14 +74,14 @@ public boolean onCreateOptionsMenu(Menu menu) {
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
-            adapter.filterCountries(query);
+            adapter.getFilter().filter(query);
 
             return true;
         }
 
         @Override
         public boolean onQueryTextChange(String newText) {
-            adapter.filterCountries(newText);
+            adapter.getFilter().filter(newText);
             return true;
         }
     });
