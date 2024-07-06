@@ -9,13 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.model.CountriesResponse;
@@ -24,6 +27,7 @@ import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
 import pmf.android.sportscoresbysbm2.ui.adapters.CompetitionAdapter;
 import pmf.android.sportscoresbysbm2.ui.adapters.CountriesAdapter;
 import pmf.android.sportscoresbysbm2.ui.adapters.StandingsAdapter;
+import pmf.android.sportscoresbysbm2.ui.fragments.StandingsFragment;
 import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 import pmf.android.sportscoresbysbm2.viewmodel.CompetitionsViewModel;
 import pmf.android.sportscoresbysbm2.viewmodel.StandingsResponseViewModel;
@@ -38,6 +42,8 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
     StandingsAdapter adapter;
     private Intent intent;
 
+    private StandingsFragment standingsFragment;
+    private Map<Long, String> countryMap = new HashMap<>();>
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +54,14 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        initialization();
+       // initialization();
+
+        standingsFragment = new StandingsFragment();
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, standingsFragment);
+        ft.commit();
+
     }
 
     private void initialization() {

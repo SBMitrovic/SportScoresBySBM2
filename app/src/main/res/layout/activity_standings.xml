@@ -8,43 +8,11 @@
     tools:context=".ui.activities.StandingsActivity">
 
 
-    <TextView
-        android:id="@+id/mainText"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:name="pmf.android.sportscoresbysbm2.ui.fragments.StandingsFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textColor="@color/gray"
-        android:textSize="12dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.821"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#000000"/>
-
-    <TextView
-        android:id="@+id/standingsGroup"
-        android:layout_width="415dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:background="#000000"
-        android:text="POS"
-        android:textColor="@color/gray"
-        android:textSize="12dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewStandings"
-        android:layout_width="413dp"
-        android:layout_height="716dp"
-        app:layout_constraintTop_toBottomOf="@+id/standingsGroup"
-        tools:layout_editor_absoluteX="0dp" />
-
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="120dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
