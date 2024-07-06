@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
+import  androidx.appcompat.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,6 +40,9 @@ import pmf.android.sportscoresbysbm2.viewmodel.CountriesResponseViewModel;
 import pmf.android.sportscoresbysbm2.viewmodel.SingleTeamViewModel;
 
 public class CountriesActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
+    Toolbar toolbar, searchtollbar;
+    Menu search_menu;
+    MenuItem item_search;
 
     private CountriesResponseViewModel mCoutnriesViewModel;
     private List<Country> mCountryList;
@@ -51,12 +58,35 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         initialization();
     }
 
 
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu, menu);
 
+    MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_search);
+    SearchView searchView = (SearchView) menuItem.getActionView();
+    searchView.setQueryHint("Search Country");
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            adapter.filterCountries(query);
 
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            adapter.filterCountries(newText);
+            return true;
+        }
+    });
+
+    return true;}
 
     private void initialization() {
         recyclerViewCountries = findViewById(R.id.recyclerViewCountries);

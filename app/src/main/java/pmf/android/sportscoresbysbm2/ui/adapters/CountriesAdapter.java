@@ -12,6 +12,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.bumptech.glide.Glide;
@@ -60,6 +61,17 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
     @Override
     public int getItemCount() {
         return countryList.size();
+    }
+
+    public void filterCountries(String text){
+        List<Country> temp = new ArrayList();
+        for(Country d: countryList){
+            if(d.getName().toLowerCase().contains(text.toLowerCase())){
+                temp.add(d);
+            }
+        }
+        countryList = temp;
+        notifyDataSetChanged();
     }
 }
 
