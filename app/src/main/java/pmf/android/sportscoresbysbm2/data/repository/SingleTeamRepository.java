@@ -4,7 +4,13 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Room;
 
+import java.util.List;
+
+import pmf.android.sportscoresbysbm2.SportScoresBySBM;
+import pmf.android.sportscoresbysbm2.data.database.ApplicationRoomDatabase;
+import pmf.android.sportscoresbysbm2.data.database.TeamEntity;
 import pmf.android.sportscoresbysbm2.data.model.SingleTeamResponse;
 import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
 import pmf.android.sportscoresbysbm2.util.APIFootballInterface;
@@ -20,7 +26,7 @@ public class SingleTeamRepository {
     private APIFootballInterface mApiFootballInterface;
     private RetrofitMaker retrofitMaker;
     private static SingleTeamRepository sInstance;
-
+    private static ApplicationRoomDatabase db;
 
     private SingleTeamRepository() {
         mApiFootballInterface = RetrofitMaker.getRetrofit();
@@ -34,6 +40,8 @@ public class SingleTeamRepository {
                 Log.d(LOG, "Made new repository");
             }
         }
+        db = Room.databaseBuilder(SportScoresBySBM.getInstance(),
+                ApplicationRoomDatabase.class, "SportScoresBySBM_database").allowMainThreadQueries().build();
         return sInstance;
     }
 
@@ -44,13 +52,13 @@ public class SingleTeamRepository {
             public void onResponse(Call<SingleTeamResponse> call, Response<SingleTeamResponse> response) {
                 Log.i(LOG, "SingleTeam Response successfull");
                 data.setValue(response.body());
-                if(response.body() != null){
+                if (response.body() != null) {
                     Log.i("Team name ", response.body().getResponse().get(0).getTeam().getName());
-                }
-                else{
+                } else {
                     Log.i("Team name ", "null");
                 }
             }
+
             @Override
             public void onFailure(Call<SingleTeamResponse> call, Throwable throwable) {
                 Log.e(LOG, throwable.getMessage());
@@ -61,4 +69,15 @@ public class SingleTeamRepository {
         return data;
     }
 
+    public boolean insertSingleTeam(TeamEntity team) {
+        Long id = team.getTeamId();
+        List<TeamEntity> teams = db.teamEntityDao().getAll();
+        for (TeamEntity t : teams) {
+            if (t.getTeamId().equals(id)) {
+                return false;
+            }
+        }
+        db.teamEntityDao().insert(team);
+        return true;
+    }
 }

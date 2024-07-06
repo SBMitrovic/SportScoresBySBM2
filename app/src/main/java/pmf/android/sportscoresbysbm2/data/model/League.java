@@ -4,8 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 public class League {
@@ -103,4 +104,19 @@ public class League {
         standingsInnerListSize = counter;
         return list;
     }
+
+    public Map<String, List<StandingsResponse.Standing>> experiment() {
+        Map<String, List<StandingsResponse.Standing>> map = new HashMap<>();
+        for(int i = 0 ; i < standings.size(); i++){
+            map.put("list" + i + "" , standings.get(i));
+        }
+        return map;
+    }
+    public void printSomething(Map<String, List<League>> map)
+    {
+        for (int i = 0 ; i < map.size(); i++){
+            System.out.println(map.get("list" + i + "").get(i).getName());
+        }
+    }
+
 }

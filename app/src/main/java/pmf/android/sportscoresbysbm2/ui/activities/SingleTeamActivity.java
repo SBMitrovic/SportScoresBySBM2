@@ -3,7 +3,9 @@ package pmf.android.sportscoresbysbm2.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +15,16 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import pmf.android.sportscoresbysbm2.R;
+import pmf.android.sportscoresbysbm2.data.database.TeamEntity;
 import pmf.android.sportscoresbysbm2.data.model.SingleTeamResponse;
+import pmf.android.sportscoresbysbm2.data.repository.SingleTeamRepository;
 import pmf.android.sportscoresbysbm2.viewmodel.SingleTeamViewModel;
 
 public class SingleTeamActivity extends AppCompatActivity {
     private Intent intent;
     private SingleTeamResponse.SingleTeam singleTeam;
+    private Button favouritesButton;
+    private SingleTeamRepository singleTeamRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +37,26 @@ public class SingleTeamActivity extends AppCompatActivity {
         });
 
         initialization();
-
+        favouritesButton = findViewById(R.id.favouritesButton);
+        favouritesButton.setOnClickListener(v -> {
+            TeamEntity teamEntity = new TeamEntity(singleTeam.getTeam().getId(), singleTeam.getTeam().getName());
+            boolean teamNotAlreadyInBase = singleTeamRepository.insertSingleTeam(teamEntity);
+            if(teamNotAlreadyInBase) {
+                Toast.makeText(SingleTeamActivity.this, "Team added to favourites", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(SingleTeamActivity.this, "Team already in favourites", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
     private void initialization(){
         intent = getIntent();
         Long teamId = intent.getLongExtra("teamId", 0L);
+        singleTeamRepository = SingleTeamRepository.getInstance();
         getSingleTeam(teamId);
+
+
     }
     public void getSingleTeam(Long teamId){
         SingleTeamViewModel mSingleTeamViewModel = new ViewModelProvider(this).get(SingleTeamViewModel.class);

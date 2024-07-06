@@ -118,7 +118,7 @@ public class CompetitionsActivity extends AppCompatActivity implements RecyclerV
             startActivity(intent);
         }else{
             Toast.makeText(this, "Standings is not available for this competition", Toast.LENGTH_SHORT).show();
-            //Eventualno prikazati pobjednika
+            //Eventualno prikazati pobjednika ili za KUPOVE prikazivati utakmice
         }
 
     }
