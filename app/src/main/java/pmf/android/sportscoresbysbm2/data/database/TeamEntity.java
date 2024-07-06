@@ -20,6 +20,8 @@ public class TeamEntity {
     public TeamEntity () {
     }
 
+
+
     public Long getTeamId() {
         return this.id;
     }
