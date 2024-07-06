@@ -86,9 +86,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
                 filteredList.clear();
 
                 for (Country country : tempList) {
-                    Log.i("Country", country.getName() + " query " + query.toLowerCase().trim());
                     if (country.getName().toLowerCase().contains(query.toLowerCase().trim())) {
-                        Log.i("uslo je u if", "uslo je u if");
                         filteredList.add(country);
                     }
                 }
@@ -100,11 +98,15 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesViewHolder> 
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults results) {
+
             countryList = (List<Country>) results.values;
+            Log.i("Countries filter, size : ", "CountriesResponse is not null size : " + countryList.size());
             notifyDataSetChanged();
         }
     };
-
+    public Country getItem(int position) {
+        return countryList.get(position);
+    }
 }
 
 

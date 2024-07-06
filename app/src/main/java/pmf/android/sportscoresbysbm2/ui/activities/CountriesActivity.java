@@ -40,9 +40,7 @@ import pmf.android.sportscoresbysbm2.viewmodel.CountriesResponseViewModel;
 import pmf.android.sportscoresbysbm2.viewmodel.SingleTeamViewModel;
 
 public class CountriesActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
-    Toolbar toolbar, searchtollbar;
-    Menu search_menu;
-    MenuItem item_search;
+    Toolbar toolbar;
 
     private CountriesResponseViewModel mCoutnriesViewModel;
     private List<Country> mCountryList;
@@ -50,10 +48,10 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
     private LinearLayoutManager layoutManager;
 
 
-
     List<Country> localList = new ArrayList<Country>();
     RecyclerView recyclerViewCountries;
     CountriesAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,28 +63,32 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
     }
 
 
-public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu, menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
 
-    MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_search);
-    SearchView searchView = (SearchView) menuItem.getActionView();
-    searchView.setQueryHint("Search Country");
-    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            adapter.getFilter().filter(query);
+        MenuItem menuItem = toolbar.getMenu().findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Search Country");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                Log.i("Countries filter, size : ", "CountriesResponse is not null size : " + mCountryList.size());
 
-            return true;
-        }
+                return true;
+            }
 
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            adapter.getFilter().filter(newText);
-            return true;
-        }
-    });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                Log.i("Countries filter, size : ", "CountriesResponse is not null size : " + mCountryList.size());
 
-    return true;}
+                return true;
+            }
+        });
+
+        return true;
+    }
 
     private void initialization() {
         recyclerViewCountries = findViewById(R.id.recyclerViewCountries);
@@ -103,9 +105,6 @@ public boolean onCreateOptionsMenu(Menu menu) {
         // Initialize localList
         mCountryList = new ArrayList<>();
 
-        // adapter
-        adapter = new CountriesAdapter(this, mCountryList, this);
-        recyclerViewCountries.setAdapter(adapter);
 
         // View Model
         mCoutnriesViewModel = new ViewModelProvider(this).get(CountriesResponseViewModel.class);
@@ -115,10 +114,10 @@ public boolean onCreateOptionsMenu(Menu menu) {
         getSingleTeam();
     }
 
-    public void getCountries(){
+    public void getCountries() {
 
         mCoutnriesViewModel.getCountries().observe(this, CountriesResponse -> {
-            if(CountriesResponse == null) {
+            if (CountriesResponse == null) {
                 Log.e("MainActivity", "CountriesResponse is null");
             } else {
 
@@ -128,18 +127,16 @@ public boolean onCreateOptionsMenu(Menu menu) {
                 recyclerViewCountries.setAdapter(adapter);
 
                 Log.e("Countries activity, size : ", "CountriesResponse is not null size : " + mCountryList.size());
-                Log.e("Countries activity ", mCountryList.get(67).getName());
-
 
 
             }
         });
     }
 
-    public void getSingleTeam(){
+    public void getSingleTeam() {
         SingleTeamViewModel mSingleTeamViewModel = new ViewModelProvider(this).get(SingleTeamViewModel.class);
         mSingleTeamViewModel.getSingleTeamResponse(37L).observe(this, singleTeamResponse -> {
-            if(singleTeamResponse == null) {
+            if (singleTeamResponse == null) {
                 Log.e("SingleTeamActivity", "singleTeamResponse is null");
             } else {
                 Log.e("SingleTeamActivity", singleTeamResponse.getResponse().get(0).getTeam().getName());
@@ -147,12 +144,13 @@ public boolean onCreateOptionsMenu(Menu menu) {
         });
     }
 
-
     @Override
     public void onItemClick(int position) {
+        // Retrieve the current item from the adapter instead of the activity's list
+        Country clickedCountry = adapter.getItem(position); // Ensure you have a method in your adapter to get an item by position
         Intent intent = new Intent(CountriesActivity.this, CompetitionsActivity.class);
-        intent.putExtra("countryName", mCountryList.get(position).getName());
-        Log.i("countryClicked", mCountryList.get(position).getName());
+        intent.putExtra("countryName", clickedCountry.getName());
+        Log.i("countryClicked", clickedCountry.getName());
         startActivity(intent);
     }
 }
