@@ -59,8 +59,11 @@ public class StandingsAdapter extends RecyclerView.Adapter<StandingsViewHolder> 
 
     @Override
     public int getItemCount() {
+        if (this.standingsList == null) {
+            return 0;
+        } else{
         return this.standingsList.size();
-    }
+    }}
 
 
 }

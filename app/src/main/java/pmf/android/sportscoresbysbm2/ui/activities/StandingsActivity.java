@@ -1,7 +1,10 @@
 package pmf.android.sportscoresbysbm2.ui.activities;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
@@ -9,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,8 +46,7 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
     StandingsAdapter adapter;
     private Intent intent;
 
-    private StandingsFragment standingsFragment;
-    private Map<Long, String> countryMap = new HashMap<>();>
+    private Map<String, List<StandingsResponse.Standing>> standingsMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,18 +57,17 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-       // initialization();
 
-        standingsFragment = new StandingsFragment();
+        initialization();
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, standingsFragment);
-        ft.commit();
+
+
 
     }
 
     private void initialization() {
 
+        /*
         recyclerViewStandings = findViewById(R.id.recyclerViewStandings);
         recyclerViewStandings.setHasFixedSize(true);
 
@@ -80,18 +82,29 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
         adapter = new StandingsAdapter(this, mStandingsList, this);
         recyclerViewStandings.setAdapter(adapter);
 
+
+         */
         //ViewModel
         mStandingsViewModel = new ViewModelProvider(this).get(StandingsResponseViewModel.class);
+
+
+
 
         intent = getIntent();
 
         long leagueId = intent.getLongExtra("leagueId", 0);
         Log.i("Standings activity ID ", String.valueOf(leagueId));
         String season = intent.getStringExtra("seasonYear");
+
+
+
+
         getStandings(leagueId, season);
 
 
     }
+
+
 
     private void getStandings(long leagueId, String season) {
 
@@ -101,14 +114,46 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
             } else {
                 mStandingsViewModel = new ViewModelProvider(this).get(StandingsResponseViewModel.class);
 
-                mStandingsList.addAll(standingsResponse.getResponse().get(0).getLeague().getStandingsSimple());
+               // mStandingsList.addAll(standingsResponse.getResponse().get(0).getLeague().getStandingsSimple());
+                standingsMap = standingsResponse.getResponse().get(0).getLeague().experiment();
+                for (int i = 0; i < standingsMap.size(); i++) {
+                    Log.i("Standings activity map size", String.valueOf(standingsMap.size()));
+                }
+
+
+                //Fragment
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                for(int i = 0 ; i < standingsMap.size(); i++) {
+                    Log.i("Inside loop stand actv", String.valueOf(i));
+                    Bundle bundle = new Bundle();
+                    List<StandingsResponse.Standing> standings = standingsMap.get("list" + i);
+                    ArrayList<StandingsResponse.Standing> standingsArrayList = new ArrayList<>(standings);
+
+                    //Bundle
+                    bundle.putParcelableArrayList("standings", standingsArrayList);
+                    Log.i("Standings activity team array", String.valueOf(standingsArrayList.get(0).getTeam().getName()));
+
+
+                    //Fragment
+
+                    Fragment fragment = new StandingsFragment();
+                    fragment.setArguments(bundle);
+                   // ft.add(R.id.fragment_container, fragment,"standings" +  i );
+                   // ft.attach(R.id.fragment_container, fragment,"standings" +  i );
+                    ft.add(R.id.fragment_container, fragment,"standings" +  i );
+                  //  ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                  //  ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+                }
+
+                ft.commit();
+
 
                 // Set the adapter to the RecyclerView here
-                adapter = new StandingsAdapter(this, mStandingsList, this);
-                recyclerViewStandings.setAdapter(adapter);
+               // adapter = new StandingsAdapter(this, mStandingsList, this);
+//                recyclerViewStandings.setAdapter(adapter);
 
-                Log.e("Standings activity", "Standings is not null");
-                Log.e("Standings activity ", mStandingsList.get(1).getTeam().getName());
+              //  Log.e("Standings activity", "Standings is not null");
+                //Log.e("Standings activity ", mStandingsList.get(1).getTeam().getName());
             }
         });
     }

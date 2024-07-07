@@ -2,8 +2,13 @@ package pmf.android.sportscoresbysbm2.data.model;
 
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.room.Ignore;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class StandingsResponse {
@@ -73,7 +78,7 @@ public class StandingsResponse {
 
 
 
-    public class Standing {
+    public class Standing implements Parcelable {
         private Long rank;
         private Team team;
         private Long points;
@@ -197,6 +202,16 @@ public class StandingsResponse {
 
         public void setUpdate(String update) {
             this.update = update;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel parcel, int i) {
+
         }
     }
 
