@@ -101,7 +101,7 @@ public class CompetitionsActivity extends AppCompatActivity implements RecyclerV
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(CompetitionsActivity.this, StandingsActivity.class);
+        Intent intent = new Intent(CompetitionsActivity.this, StandingsGroupActivity.class);
         intent.putExtra("leagueName", mCompetitionsList.get(position).getLeague().getName());
         Long id = mCompetitionsList.get(position).getLeague().getId();
         intent.putExtra("leagueId",id);

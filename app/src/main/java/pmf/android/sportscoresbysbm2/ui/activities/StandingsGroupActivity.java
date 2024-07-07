@@ -1,7 +1,6 @@
 package pmf.android.sportscoresbysbm2.ui.activities;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -13,12 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,62 +32,55 @@ import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
 import pmf.android.sportscoresbysbm2.ui.adapters.CompetitionAdapter;
 import pmf.android.sportscoresbysbm2.ui.adapters.CountriesAdapter;
 import pmf.android.sportscoresbysbm2.ui.adapters.StandingsAdapter;
+import pmf.android.sportscoresbysbm2.ui.adapters.StandingsGroupAdapater;
 import pmf.android.sportscoresbysbm2.ui.fragments.StandingsFragment;
 import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 import pmf.android.sportscoresbysbm2.viewmodel.CompetitionsViewModel;
 import pmf.android.sportscoresbysbm2.viewmodel.StandingsResponseViewModel;
 
-public class StandingsActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
+public class StandingsGroupActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
 
     private StandingsResponseViewModel mStandingsViewModel;
     public LiveData<StandingsResponse> standingsResponseLiveData;
     private LinearLayoutManager layoutManager;
     RecyclerView recyclerViewStandings;
-    StandingsAdapter adapter;
+    StandingsGroupAdapater adapter;
     private Intent intent;
-    private RecyclerView standingsRecyclerView;
-    private Map<String, List<StandingsResponse.Standing>> standingsMap = new HashMap<>();
+    private List<List<StandingsResponse.Standing>> list;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_standings);
+        setContentView(R.layout.activity_standingsgroup);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-        //Pokusaj dada github copilot
-
-
         initialization();
-
-
-
 
     }
 
     private void initialization() {
 
-        /*
-        recyclerViewStandings = findViewById(R.id.recyclerViewStandings);
+
+        recyclerViewStandings = findViewById(R.id.standingsGroupRecyclerView);
         recyclerViewStandings.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewStandings.setLayoutManager(layoutManager);
 
 
-        //Initialize lists
-        mStandingsList = new ArrayList<>();
 
         //Adapter
-        adapter = new StandingsAdapter(this, mStandingsList, this);
         recyclerViewStandings.setAdapter(adapter);
 
 
-         */
+
         //ViewModel
         mStandingsViewModel = new ViewModelProvider(this).get(StandingsResponseViewModel.class);
 
@@ -115,47 +109,12 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
             if(standingsResponse == null) {
                 Log.e("Competitions activity", "CompetitionsResponse is null");
             } else {
-                mStandingsViewModel = new ViewModelProvider(this).get(StandingsResponseViewModel.class);
 
-                standingsMap = standingsResponse.getResponse().get(0).getLeague().experiment();
-                for (int i = 0; i < standingsMap.size(); i++) {
-                    Log.i("Standings activity map size", String.valueOf(standingsMap.size()));
-                }
+                Log.e("Competitions activity", "CompetitionsResponse is not null");
+                list = standingsResponse.getResponse().get(0).getLeague().getStandings();
+                adapter = new StandingsGroupAdapater(this, list, this);
 
-
-                //Fragment
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                for(int i = 0 ; i < standingsMap.size(); i++) {
-                    Log.i("Inside loop stand actv", String.valueOf(i));
-                    Bundle bundle = new Bundle();
-                    List<StandingsResponse.Standing> standings = standingsMap.get("list" + i);
-                    ArrayList<StandingsResponse.Standing> standingsArrayList = new ArrayList<>(standings);
-
-                    //Bundle
-                    bundle.putParcelableArrayList("standings", standingsArrayList);
-                    Log.i("Standings activity team array", String.valueOf(standingsArrayList.get(0).getTeam().getName()));
-
-
-                    //Fragment
-
-                    Fragment fragment = new StandingsFragment();
-                    fragment.setArguments(bundle);
-                   // ft.add(R.id.fragment_container, fragment,"standings" +  i );
-                   // ft.attach(R.id.fragment_container, fragment,"standings" +  i );
-                    ft.add(R.id.fragment_container, fragment,"standings" +  i );
-                  //  ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                  //  ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                }
-
-                ft.commit();
-
-
-                // Set the adapter to the RecyclerView here
-               // adapter = new StandingsAdapter(this, mStandingsList, this);
-//                recyclerViewStandings.setAdapter(adapter);
-
-              //  Log.e("Standings activity", "Standings is not null");
-                //Log.e("Standings activity ", mStandingsList.get(1).getTeam().getName());
+                recyclerViewStandings.setAdapter(adapter);
             }
 
         });
@@ -163,8 +122,28 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
 
     @Override
     public void onItemClick(int position) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        boolean isActive = fragmentManager.findFragmentByTag("frag"+position) != null;
+        if(isActive) {
+            ft.remove(fragmentManager.findFragmentByTag("frag"+position));
+            ft.commit();
+        }else{
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("standings", (ArrayList<? extends Parcelable>) list.get(position));
+        Fragment fragment = new StandingsFragment();
+        fragment.setArguments(bundle);
+        ft.replace(R.id.fragment_container, fragment, "frag" + position);
 
-        intent = new Intent(this, SingleTeamActivity.class);
-        startActivity(intent);
+        ft.commit();
+        }
+        /*
+        FragmentTransaction ftReplace = getSupportFragmentManager().findFragmentByTag("frag" + position).getFragmentManager().beginTransaction();
+        ftReplace.replace(R.id.fragment_container, fragment, "frag" + position);
+        ftReplace.commit();
+
+         */
+
     }
+
 }

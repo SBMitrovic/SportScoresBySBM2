@@ -1,5 +1,6 @@
 package pmf.android.sportscoresbysbm2.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.model.StandingsResponse;
+import pmf.android.sportscoresbysbm2.ui.activities.SingleTeamActivity;
 import pmf.android.sportscoresbysbm2.ui.adapters.StandingsAdapter;
 import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 import pmf.android.sportscoresbysbm2.viewmodel.StandingsResponseViewModel;
@@ -131,6 +133,9 @@ public class StandingsFragment extends Fragment  implements RecyclerViewClickLis
 
     @Override
     public void onItemClick(int position) {
-
+        Intent intent = new Intent();
+        intent = new Intent(getActivity(), SingleTeamActivity.class);
+        intent.putExtra("teamId", standingsList.get(position).getTeam().getId());
+        startActivity(intent);
     }
 }

@@ -78,7 +78,7 @@ public class StandingsResponse {
 
 
 
-    public class Standing implements Parcelable {
+    public static class Standing implements Parcelable {
         private Long rank;
         private Team team;
         private Long points;
@@ -107,6 +107,43 @@ public class StandingsResponse {
             this.away = away;
             this.update = update;
         }
+
+        protected Standing(Parcel in) {
+            if (in.readByte() == 0) {
+                rank = null;
+            } else {
+                rank = in.readLong();
+            }
+            if (in.readByte() == 0) {
+                points = null;
+            } else {
+                points = in.readLong();
+            }
+            if (in.readByte() == 0) {
+                goalsDiff = null;
+            } else {
+                goalsDiff = in.readLong();
+            }
+            group = in.readString();
+            form = in.readString();
+            status = in.readString();
+            description = in.readString();
+            update = in.readString();
+            team = in.readParcelable(Team.class.getClassLoader());
+            all = in.readParcelable(All.class.getClassLoader());
+        }
+
+        public static final Creator<Standing> CREATOR = new Creator<Standing>() {
+            @Override
+            public Standing createFromParcel(Parcel in) {
+                return new Standing(in);
+            }
+
+            @Override
+            public Standing[] newArray(int size) {
+                return new Standing[size];
+            }
+        };
 
         public Long getRank() {
             return this.rank;
@@ -211,11 +248,43 @@ public class StandingsResponse {
 
         @Override
         public void writeToParcel(@NonNull Parcel parcel, int i) {
-
+            if (rank == null) {
+                parcel.writeByte((byte) 0);
+            } else {
+                parcel.writeByte((byte) 1);
+                parcel.writeLong(rank);
+            }
+            if (points == null) {
+                parcel.writeByte((byte) 0);
+            } else {
+                parcel.writeByte((byte) 1);
+                parcel.writeLong(points);
+            }
+            if (goalsDiff == null) {
+                parcel.writeByte((byte) 0);
+            } else {
+                parcel.writeByte((byte) 1);
+                parcel.writeLong(goalsDiff);
+            }
+            parcel.writeString(group);
+            parcel.writeString(form);
+            parcel.writeString(status);
+            parcel.writeString(description);
+            parcel.writeString(update);
         }
     }
 
-    public class Team {
+    public class Team  implements Parcelable{
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel parcel, int i) {
+
+        }
+
         private Long id;
         private String name;
         private String logo;
@@ -288,7 +357,7 @@ public class StandingsResponse {
         }
     }
 
-    public  class All {
+    public  class All  implements Parcelable{
         private Long played;
         private Long win;
         private Long draw;
@@ -341,6 +410,16 @@ public class StandingsResponse {
 
         public void setGoals(Goals goals) {
             this.goals = goals;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel parcel, int i) {
+
         }
     }
 
