@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,7 +8,7 @@
 
     <ImageView
         android:id="@+id/competitionLogo"
-        android:layout_width="120dp"
+        android:layout_width="450dp"
         android:layout_height="165dp"
         android:src="@mipmap/ic_launcher" />
 
@@ -18,7 +19,8 @@
         android:layout_weight="5"
         android:gravity="center"
         android:text="competitionName"
-        android:textSize="26sp" />
+        android:textSize="42sp"
+        tools:visibility="visible" />
 
 
 

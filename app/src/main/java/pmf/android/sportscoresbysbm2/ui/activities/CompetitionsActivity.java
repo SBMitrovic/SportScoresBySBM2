@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,28 @@ public class CompetitionsActivity extends AppCompatActivity implements RecyclerV
             return insets;
         });
 
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(0);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+                    finish();
+                    return true;
+                    case R.id.favorites:
+                    startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+                    finish();
+                    return true;
+
+                case R.id.notification:
+                    startActivity(new Intent(getApplicationContext(), MakeNotificationActivity.class));
+                    finish();
+                    return true;
+            }
+            return false;
+        });
 
         initialization();
 
