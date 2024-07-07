@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -37,6 +38,7 @@ dependencies {
     implementation(libs.databinding.runtime)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.play.services.maps)
     annotationProcessor("androidx.room:room-compiler:2.6.0")
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -61,7 +63,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha13")
     // To use constraintlayout in compose
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
-
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
 
 
 
