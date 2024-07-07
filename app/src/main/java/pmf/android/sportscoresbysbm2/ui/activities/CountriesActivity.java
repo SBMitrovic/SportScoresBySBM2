@@ -3,6 +3,7 @@ package pmf.android.sportscoresbysbm2.ui.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,12 +92,24 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
     }
 
     private void initialization() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widthPixels = displayMetrics.widthPixels;
+        float scaleFactor = displayMetrics.density;
+        float widthDp = widthPixels / scaleFactor;
+        int spanCount = 2; // Default span count
+
+        if (widthDp > 600) { // For example, tablets or large screens
+            spanCount = 3;
+        } else if (widthDp > 900) { // For larger screens
+            spanCount = 4;
+        }
         recyclerViewCountries = findViewById(R.id.recyclerViewCountries);
         recyclerViewCountries.setHasFixedSize(true);
 
 
         // use a linear layout manager
-        layoutManager = new GridLayoutManager(CountriesActivity.this, 2);
+        layoutManager = new GridLayoutManager(CountriesActivity.this, spanCount);
         recyclerViewCountries.setLayoutManager(layoutManager);
 
         // use this setting to improve performance if you know that changes
