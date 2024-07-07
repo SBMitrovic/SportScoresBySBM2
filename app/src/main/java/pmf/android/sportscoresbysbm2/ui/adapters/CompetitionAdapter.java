@@ -38,7 +38,6 @@ public class CompetitionAdapter extends RecyclerView.Adapter<CompetitionsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull CompetitionsViewHolder holder, int position) {
-
         holder.competitonName.setText(competitonsList.get(position).getLeague().getName());
         Picasso.get().load(competitonsList.get(position).getLeague().getLogo()).into(holder.competitionLogo);
     }

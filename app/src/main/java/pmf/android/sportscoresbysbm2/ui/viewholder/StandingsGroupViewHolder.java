@@ -1,6 +1,7 @@
 package pmf.android.sportscoresbysbm2.ui.viewholder;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,18 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 
+public class StandingsGroupViewHolder extends RecyclerView.ViewHolder {
 
-public class CountriesViewHolder extends RecyclerView.ViewHolder {
-        public TextView countryNameListItem;
-        public ImageView countryFlag;
+        public TextView standingsGroup, competitionName;
+        public ImageView competitionLogo;
 
-        //private final TextView nase_polje;
-        public CountriesViewHolder(@NonNull View view, RecyclerViewClickListenerInterface listener) {
-            super(view);
-            countryNameListItem = view.findViewById(R.id.countryNameListItem);
-            countryFlag = view.findViewById(R.id.countryFlag);
 
-            view.setOnClickListener(new View.OnClickListener() {
+        public StandingsGroupViewHolder(@androidx.annotation.NonNull View itemView , RecyclerViewClickListenerInterface listener) {
+            super(itemView);
+            standingsGroup = itemView.findViewById(R.id.standingsGroup);
+            competitionName = itemView.findViewById(R.id.competitionName);
+            competitionLogo = itemView.findViewById(R.id.competitionLogo);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
@@ -34,4 +36,5 @@ public class CountriesViewHolder extends RecyclerView.ViewHolder {
             });
         }
     }
+
 
