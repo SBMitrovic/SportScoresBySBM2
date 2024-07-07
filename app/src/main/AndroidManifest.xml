@@ -49,9 +49,6 @@
             android:value="MAPS_API_KEY" />
 
         <activity
-            android:name=".ui.activities.SingleTeamActivity"
-            android:exported="true" /> <!-- Competition activity -->
-        <activity
             android:name=".ui.activities.CompetitionsActivity"
             android:exported="true" /> <!-- Countries activity -->
         <activity
@@ -63,9 +60,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Main activity -->
-        <activity
-            android:name=".ui.activities.MainActivity"
-            android:exported="true" />
+
         <activity
             android:name=".ui.activities.StandingsGroupActivity"
             android:exported="true" />
