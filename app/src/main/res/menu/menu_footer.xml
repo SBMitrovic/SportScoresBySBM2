@@ -10,8 +10,8 @@
         android:title="Favorites"
         android:icon="@drawable/ic_favorites_full" />
     <item
-        android:id="@+id/back"
-        android:title="Back"
-        android:icon="@drawable/ic_back_foreground" />
+        android:id="@+id/notification"
+        android:title="Make Notification"
+        android:icon="@drawable/ic_notification_foreground" />
 
 </menu>

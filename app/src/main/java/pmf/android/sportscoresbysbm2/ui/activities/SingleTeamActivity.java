@@ -41,14 +41,16 @@ public class SingleTeamActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
-
                     startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
-
                     finish();
                     return true;
                 case R.id.favorites:
-                    startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MakeNotificationActivity.class));
+                    finish();
+                    return true;
 
+                case R.id.notification:
+                    startActivity(new Intent(getApplicationContext(), MakeNotificationActivity.class));
                     finish();
                     return true;
             }
