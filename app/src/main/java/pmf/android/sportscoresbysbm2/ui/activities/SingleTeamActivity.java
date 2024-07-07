@@ -14,6 +14,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.database.TeamEntity;
 import pmf.android.sportscoresbysbm2.data.model.SingleTeamResponse;
@@ -35,7 +37,23 @@ public class SingleTeamActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
 
+                    startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+
+                    finish();
+                    return true;
+                case R.id.favorites:
+                    startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+
+                    finish();
+                    return true;
+            }
+            return false;
+        });
         initialization();
         favouritesButton = findViewById(R.id.favouritesButton);
         favouritesButton.setOnClickListener(v -> {

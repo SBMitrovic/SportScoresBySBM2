@@ -1,5 +1,8 @@
 package pmf.android.sportscoresbysbm2.ui.activities;
 
+import static pmf.android.sportscoresbysbm2.R.*;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +30,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,12 +58,28 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
     RecyclerView recyclerViewCountries;
     CountriesAdapter adapter;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.home:
+                    return true;
+                case R.id.favorites:
+                    startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+
+                    finish();
+                    return true;
+            }
+            return false;
+        });
 
         initialization();
     }

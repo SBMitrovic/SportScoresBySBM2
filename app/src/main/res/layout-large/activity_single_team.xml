@@ -27,12 +27,17 @@
         app:layout_constraintHorizontal_bias="0.764"
         app:layout_constraintStart_toEndOf="@+id/teamName"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.184" />
+        app:layout_constraintVertical_bias="0.184"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        />
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/menu_footer"
         app:itemIconSize="40dp"/>
 
