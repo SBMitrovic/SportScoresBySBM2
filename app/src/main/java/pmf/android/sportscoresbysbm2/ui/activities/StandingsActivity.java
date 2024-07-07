@@ -37,6 +37,7 @@ import pmf.android.sportscoresbysbm2.viewmodel.CompetitionsViewModel;
 import pmf.android.sportscoresbysbm2.viewmodel.StandingsResponseViewModel;
 
 public class StandingsActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
+    private RecyclerView standingsRecyclerView;
 
     private StandingsResponseViewModel mStandingsViewModel;
     private List<StandingsResponse.Standing> mStandingsList;
@@ -50,8 +51,13 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        standingsRecyclerView = findViewById(R.id.standingsRecyclerView);
+        standingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_standings);
+        adapter = new StandingsAdapter(this, mStandingsList,this);
+        standingsRecyclerView.setAdapter(adapter);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
