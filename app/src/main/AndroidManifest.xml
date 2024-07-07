@@ -30,12 +30,9 @@
             android:name=".ui.activities.SingleTeamActivity"
             android:exported="true" /> <!-- Standings activity -->
         <activity
-            android:name=".ui.activities.StandingsActivity"
             android:name=".ui.activities.FavouriteTeams"
             android:exported="false" />
-        <activity
-            android:name=".ui.activities.MainActivity2"
-            android:exported="false" />
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
