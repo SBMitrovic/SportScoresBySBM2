@@ -39,13 +39,12 @@ import pmf.android.sportscoresbysbm2.viewmodel.StandingsResponseViewModel;
 public class StandingsActivity extends AppCompatActivity implements RecyclerViewClickListenerInterface {
 
     private StandingsResponseViewModel mStandingsViewModel;
-    private List<StandingsResponse.Standing> mStandingsList;
     public LiveData<StandingsResponse> standingsResponseLiveData;
     private LinearLayoutManager layoutManager;
     RecyclerView recyclerViewStandings;
     StandingsAdapter adapter;
     private Intent intent;
-
+    private RecyclerView standingsRecyclerView;
     private Map<String, List<StandingsResponse.Standing>> standingsMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +56,10 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+        //Pokusaj dada github copilot
+
 
         initialization();
 
@@ -114,7 +117,6 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
             } else {
                 mStandingsViewModel = new ViewModelProvider(this).get(StandingsResponseViewModel.class);
 
-               // mStandingsList.addAll(standingsResponse.getResponse().get(0).getLeague().getStandingsSimple());
                 standingsMap = standingsResponse.getResponse().get(0).getLeague().experiment();
                 for (int i = 0; i < standingsMap.size(); i++) {
                     Log.i("Standings activity map size", String.valueOf(standingsMap.size()));
@@ -155,6 +157,7 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
               //  Log.e("Standings activity", "Standings is not null");
                 //Log.e("Standings activity ", mStandingsList.get(1).getTeam().getName());
             }
+
         });
     }
 
@@ -162,7 +165,6 @@ public class StandingsActivity extends AppCompatActivity implements RecyclerView
     public void onItemClick(int position) {
 
         intent = new Intent(this, SingleTeamActivity.class);
-        intent.putExtra("teamId", mStandingsList.get(position).getTeam().getId());
         startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package pmf.android.sportscoresbysbm2.ui.viewholder;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +13,8 @@ import pmf.android.sportscoresbysbm2.util.RecyclerViewClickListenerInterface;
 public class StandingsViewHolder extends RecyclerView.ViewHolder {
     public TextView teamPosition, teamName, teamPoints, matchesLost, matchesDrawn, matchesWon, matchesPlayed, standingsGroup;
     public ImageView teamLogo;
-
-    public StandingsViewHolder(@androidx.annotation.NonNull View itemView, RecyclerViewClickListenerInterface listener) {
+    public FrameLayout frameLayout;
+    public StandingsViewHolder(@androidx.annotation.NonNull View itemView , RecyclerViewClickListenerInterface listener) {
         super(itemView);
         teamPosition = itemView.findViewById(R.id.team_position);
         teamName = itemView.findViewById(R.id.team_name);
