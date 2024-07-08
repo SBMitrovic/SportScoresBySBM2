@@ -3,6 +3,7 @@ package pmf.android.sportscoresbysbm2.ui.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -107,6 +108,7 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
         } else {
             testButton.setText("Add to favourites");
 
+
         }
 
         testButton.setOnClickListener(v -> {
@@ -117,9 +119,11 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
                     Toast.makeText(SingleTeamActivity.this, "Team removed from favourites", Toast.LENGTH_SHORT).show();
                     testButton.setText("Add to favourites");
 
+
                 } else {
                     Toast.makeText(SingleTeamActivity.this, "Team not in favourites", Toast.LENGTH_SHORT).show();
                     testButton.setText("Add to favourites");
+
 
                 }
             } else {
@@ -128,9 +132,11 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
                     Toast.makeText(SingleTeamActivity.this, "Team added to favourites", Toast.LENGTH_SHORT).show();
                     testButton.setText("Remove from favorites");
 
+
                 } else {
                     Toast.makeText(SingleTeamActivity.this, "Team already in favourites", Toast.LENGTH_SHORT).show();
                     testButton.setText("Remove from favorites");
+
 
                 }
             }
@@ -196,7 +202,7 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
 
 
         // Check if venue information is available
-        if (singleTeam.getVenue() != null) {
+        if (singleTeam != null && singleTeam.getVenue() != null) {
             String searchQuery;
             if (singleTeam.getVenue().getAddress() != null && !singleTeam.getVenue().getAddress().isEmpty()) {
                 searchQuery = singleTeam.getVenue().getAddress() + " " + singleTeam.getVenue().getCity();
@@ -223,10 +229,18 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 3));
             } else {
                 // Handle case where geocoding does not find the location
+                LatLng latLng = new LatLng(44.500000,-89.500000);
+
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Stadium Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 3));
                 Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
             }
         } else {
             // Handle case where there is no venue information
+            LatLng latLng = new LatLng(44.500000,-89.500000);
+
+            mMap.addMarker(new MarkerOptions().position(latLng).title("Stadium Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 3));
             Toast.makeText(this, "No venue information available", Toast.LENGTH_SHORT).show();
         }
     }
