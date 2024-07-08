@@ -29,6 +29,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -64,6 +65,8 @@ dependencies {
     // To use constraintlayout in compose
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
 
 
 
