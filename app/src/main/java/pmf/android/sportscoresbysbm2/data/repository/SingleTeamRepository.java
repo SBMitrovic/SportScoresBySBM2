@@ -68,7 +68,10 @@ public class SingleTeamRepository {
         });
         return data;
     }
-
+    public List<TeamEntity> getAllTeams() {
+        List<TeamEntity> teams = db.teamEntityDao().getAll();
+        return teams;
+    }
     public boolean insertSingleTeam(TeamEntity team) {
         Long id = team.getTeamId();
         List<TeamEntity> teams = db.teamEntityDao().getAll();
