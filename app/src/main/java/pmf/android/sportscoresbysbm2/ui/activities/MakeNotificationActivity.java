@@ -38,6 +38,7 @@ public class MakeNotificationActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.notification);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
+
             switch (item.getItemId()) {
                 case R.id.home:
                     startActivity(new Intent(getApplicationContext(), CountriesActivity.class));

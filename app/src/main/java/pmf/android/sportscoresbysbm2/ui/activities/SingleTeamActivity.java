@@ -47,12 +47,11 @@ import pmf.android.sportscoresbysbm2.data.repository.SingleTeamRepository;
 import pmf.android.sportscoresbysbm2.databinding.ActivityMapsBinding;
 import pmf.android.sportscoresbysbm2.viewmodel.SingleTeamViewModel;
 
-public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyCallback {
     private Intent intent;
     private SingleTeamResponse.SingleTeam singleTeam;
-    private Button favouritesButton;
+    private Button favouritesButton,removeFavouritesButton,testButton;
     private SingleTeamRepository singleTeamRepository;
-    public ImageView teamLogo;
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -68,9 +67,8 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_single_team);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
         getLastLocation();
-
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -99,17 +97,48 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
             return false;
         });
         initialization();
-        favouritesButton = findViewById(R.id.favouritesButton);
-        favouritesButton.setOnClickListener(v -> {
-            TeamEntity teamEntity = new TeamEntity(singleTeam.getTeam().getId(), singleTeam.getTeam().getName());
-            boolean teamNotAlreadyInBase = singleTeamRepository.insertSingleTeam(teamEntity);
-            if(teamNotAlreadyInBase) {
-                Toast.makeText(SingleTeamActivity.this, "Team added to favourites", Toast.LENGTH_SHORT).show();
+
+
+        testButton = findViewById(R.id.testButton);
+
+
+        if(singleTeamRepository.isFavorite(getIntent().getLongExtra("teamId", 0L))){
+            testButton.setText("Remove from favorites");
+        } else {
+            testButton.setText("Add to favourites");
+
+        }
+
+        testButton.setOnClickListener(v -> {
+           TeamEntity teamEntity= new TeamEntity(singleTeam.getTeam().getId(), singleTeam.getTeam().getName());
+            if(singleTeamRepository.isFavorite(getIntent().getLongExtra("teamId", 0L))){
+                boolean teamAlreadyInBase = singleTeamRepository.removeSingleTeam(teamEntity);
+                if(teamAlreadyInBase) {
+                    Toast.makeText(SingleTeamActivity.this, "Team removed from favourites", Toast.LENGTH_SHORT).show();
+                    testButton.setText("Add to favourites");
+
+                } else {
+                    Toast.makeText(SingleTeamActivity.this, "Team not in favourites", Toast.LENGTH_SHORT).show();
+                    testButton.setText("Add to favourites");
+
+                }
             } else {
-                Toast.makeText(SingleTeamActivity.this, "Team already in favourites", Toast.LENGTH_SHORT).show();
+                boolean teamNotAlreadyInBase = singleTeamRepository.insertSingleTeam(teamEntity);
+                if(teamNotAlreadyInBase) {
+                    Toast.makeText(SingleTeamActivity.this, "Team added to favourites", Toast.LENGTH_SHORT).show();
+                    testButton.setText("Remove from favorites");
+
+                } else {
+                    Toast.makeText(SingleTeamActivity.this, "Team already in favourites", Toast.LENGTH_SHORT).show();
+                    testButton.setText("Remove from favorites");
+
+                }
             }
+
         });
+
     }
+
 
 
     private void initialization(){
@@ -117,6 +146,7 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
         Long teamId = intent.getLongExtra("teamId", 0L);
         singleTeamRepository = SingleTeamRepository.getInstance();
         getSingleTeam(teamId);
+
 
 
     }
@@ -131,13 +161,10 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
                 Log.i("SingleTeamActivity", singleTeamResponse.getResponse().get(0).getTeam().getName());
 
                 singleTeam = singleTeamResponse.getResponse().get(0);
-                Log.i("SingleTeamActivity", singleTeamResponse.getResponse().get(0).getVenue().getAddress());
                 TextView teamName = findViewById(R.id.teamName);
-                ImageView imageView = findViewById(R.id.teamLogo);
                 teamName.setText(singleTeam.getTeam().getName());
-                ImageView teamLogo = findViewById(R.id.teamLogo);
-                Picasso.get().load(singleTeam.getTeam().getLogo()).into(teamLogo);
-                Log.i("SingleTeamActivity Logo", singleTeam.getTeam().getLogo());
+                TextView teamCountry = findViewById(R.id.teamCountry);
+                teamCountry.setText(singleTeam.getTeam().getCountry());
 
             }
         });
@@ -158,28 +185,52 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
                     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                             .findFragmentById(R.id.map);
                     mapFragment.getMapAsync(SingleTeamActivity.this);
+
                 }
             }
         });
     }
-
-
+    @Override
     public void onMapReady(GoogleMap googleMap) {
-        //String stadiumUri = "geo:0,0?q=" + singleTeam.getVenue().getName();
-        Log.i("Stadium address", singleTeam.getVenue().getAddress() + " " + singleTeam.getVenue().getCity());
-        String stadiumUri = "geo:0,0?q=" + singleTeam.getVenue().getAddress() + " " + singleTeam.getVenue().getCity();
+        mMap = googleMap;
 
-        Log.i("stadiumUri", stadiumUri);
-        Uri gmmIntentUri = Uri.parse(stadiumUri.toString());
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
-        /*mMap = googleMap;
 
-        LatLng myLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
+        // Check if venue information is available
+        if (singleTeam.getVenue() != null) {
+            String searchQuery;
+            if (singleTeam.getVenue().getAddress() != null && !singleTeam.getVenue().getAddress().isEmpty()) {
+                searchQuery = singleTeam.getVenue().getAddress() + " " + singleTeam.getVenue().getCity();
+            } else if (singleTeam.getVenue().getCity() != null && !singleTeam.getVenue().getCity().isEmpty()) {
+                searchQuery = singleTeam.getVenue().getCity();
+            } else {
+                searchQuery = singleTeam.getTeam().getCountry();
+            }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));*/
+            // Attempt to geocode the search query to a location
+            List<Address> addressList = null;
+            try {
+                addressList = geocoder.getFromLocationName(searchQuery, 1);
+                Log.i("addressList", addressList.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (addressList != null && !addressList.isEmpty()) {
+                Address address = addressList.get(0);
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                Log.i("latlng", latLng.toString());
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Stadium Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 3));
+            } else {
+                // Handle case where geocoding does not find the location
+                Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Handle case where there is no venue information
+            Toast.makeText(this, "No venue information available", Toast.LENGTH_SHORT).show();
+        }
     }
 
+
 }
+
