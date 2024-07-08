@@ -35,9 +35,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
+<<<<<<< Updated upstream
 
 import java.io.IOException;
 import java.util.List;
+=======
+>>>>>>> Stashed changes
 
 import pmf.android.sportscoresbysbm2.R;
 import pmf.android.sportscoresbysbm2.data.database.TeamEntity;
@@ -86,7 +89,7 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
                     finish();
                     return true;
                 case R.id.favorites:
-                    startActivity(new Intent(getApplicationContext(), MakeNotificationActivity.class));
+                    startActivity(new Intent(getApplicationContext(), FavouriteTeams.class));
                     finish();
                     return true;
 
@@ -132,11 +135,16 @@ public class SingleTeamActivity extends AppCompatActivity implements OnMapReadyC
                 singleTeam = singleTeamResponse.getResponse().get(0);
                 Log.i("SingleTeamActivity", singleTeamResponse.getResponse().get(0).getVenue().getAddress());
                 TextView teamName = findViewById(R.id.teamName);
+                ImageView imageView = findViewById(R.id.teamLogo);
                 teamName.setText(singleTeam.getTeam().getName());
+<<<<<<< Updated upstream
                 ImageView teamLogo = findViewById(R.id.teamLogo);
                 Picasso.get().load(singleTeam.getTeam().getLogo()).into(teamLogo);
                 Log.i("SingleTeamActivity Logo", singleTeam.getTeam().getLogo());
 
+=======
+                Picasso.get().load(singleTeam.getTeam().getLogo()).into(imageView);
+>>>>>>> Stashed changes
             }
         });
     }

@@ -63,7 +63,7 @@ public class CompetitionsActivity extends AppCompatActivity implements RecyclerV
                     finish();
                     return true;
                     case R.id.favorites:
-                    startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+                    startActivity(new Intent(getApplicationContext(), FavouriteTeams.class));
                     finish();
                     return true;
 

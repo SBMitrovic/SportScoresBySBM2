@@ -31,6 +31,8 @@ android {
         dataBinding = true
         viewBinding = true
     }
+
+    tasks.register("prepareKotlinBuildScriptModel"){}
 }
 
 dependencies {
