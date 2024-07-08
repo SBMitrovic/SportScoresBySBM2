@@ -73,7 +73,7 @@ public class CountriesActivity extends AppCompatActivity implements RecyclerView
                 case R.id.home:
                     return true;
                 case R.id.favorites:
-                    startActivity(new Intent(getApplicationContext(), MakeNotificationActivity.class));
+                    startActivity(new Intent(getApplicationContext(), FavouriteTeams.class));
                     finish();
                     return true;
 

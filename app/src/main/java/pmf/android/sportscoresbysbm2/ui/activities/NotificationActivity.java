@@ -23,6 +23,8 @@ import pmf.android.sportscoresbysbm2.R;
 
 public class NotificationActivity extends AppCompatActivity {
     TextView textView;
+
+
     @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
