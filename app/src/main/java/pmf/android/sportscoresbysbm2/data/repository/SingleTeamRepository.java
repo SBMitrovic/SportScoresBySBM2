@@ -83,6 +83,26 @@ public class SingleTeamRepository {
         db.teamEntityDao().insert(team);
         return true;
     }
+    public boolean isFavorite(Long teamId) {
+        List<TeamEntity> teams = db.teamEntityDao().getAll();
+        for (TeamEntity t : teams) {
+            if (t.getTeamId().equals(teamId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean removeSingleTeam(TeamEntity team) {
+        Long id = team.getTeamId();
+        List<TeamEntity> teams = db.teamEntityDao().getAll();
+        for (TeamEntity t : teams) {
+            if (t.getTeamId().equals(id)) {
+                db.teamEntityDao().deleteTeam(team);
+                return true;
+            }
+        }
+        return false;
+    }
 
     public List<TeamEntity> fetchFavouriteTeams() {
         return  db.teamEntityDao().getAll();

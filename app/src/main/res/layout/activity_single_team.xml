@@ -8,34 +8,38 @@
     tools:context=".ui.activities.SingleTeamActivity">
 
     <TextView
+        android:paddingTop="30dp"
         android:id="@+id/teamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.06" />
-    <ImageView
-        android:id="@+id/teamLogo"
+        app:layout_constraintVertical_bias="0.06"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/teamCountry"
+        android:layout_below="@id/teamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/teamName"
+        app:layout_constraintTop_toBottomOf="@+id/teamName"
+
+        />
+
     <Button
-        android:id="@+id/favouritesButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/testButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add to favourites"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.765"
-        app:layout_constraintStart_toEndOf="@+id/teamName"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toBottomOf="@+id/teamCountry"
+        app:layout_constraintVertical_bias="0.121" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -43,10 +47,10 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/favouritesButton"
+        app:layout_constraintTop_toBottomOf="@+id/testButton"
         app:layout_constraintStart_toEndOf="@+id/teamName"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        android:layout_height="0dp"/>
+        android:layout_height="400dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

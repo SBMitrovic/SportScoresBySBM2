@@ -46,6 +46,7 @@ public class FavouriteTeams extends AppCompatActivity implements RecyclerViewCli
         bottomNavigationView.setSelectedItemId(0);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
+            
             switch (item.getItemId()) {
                 case R.id.home:
                     startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
@@ -97,7 +98,8 @@ public class FavouriteTeams extends AppCompatActivity implements RecyclerViewCli
     public void onItemClick(int position) {
 
         Intent intent = new Intent(this, SingleTeamActivity.class);
-        intent.putExtra("teamName", favouriteTeams.get(position).getTeamName());
+        intent.putExtra("teamId", favouriteTeams.get(position).getTeamId());
         startActivity(intent);
     }
+
 }
