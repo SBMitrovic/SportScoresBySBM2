@@ -83,4 +83,8 @@ public class SingleTeamRepository {
         db.teamEntityDao().insert(team);
         return true;
     }
+
+    public List<TeamEntity> fetchFavouriteTeams() {
+        return  db.teamEntityDao().getAll();
+    }
 }

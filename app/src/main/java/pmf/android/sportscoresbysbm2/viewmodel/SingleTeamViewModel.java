@@ -3,6 +3,9 @@ package pmf.android.sportscoresbysbm2.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
+import pmf.android.sportscoresbysbm2.data.database.TeamEntity;
 import pmf.android.sportscoresbysbm2.data.model.CompetitionsResponse;
 import pmf.android.sportscoresbysbm2.data.model.SingleTeamResponse;
 import pmf.android.sportscoresbysbm2.data.repository.CompetitionsRepository;
@@ -20,6 +23,10 @@ public class SingleTeamViewModel extends ViewModel {
 
     public LiveData<SingleTeamResponse> getSingleTeamResponse(long teamId) {
         return mSingleTeamRepository.fetchSingleTeam(teamId);
+    }
+
+    public List<TeamEntity> getFavouriteTeams() {
+        return mSingleTeamRepository.fetchFavouriteTeams();
     }
 
 }

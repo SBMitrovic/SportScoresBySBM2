@@ -70,7 +70,7 @@ public class RetrofitMaker {
                     Log.d("OFFLINE INTERCEPTOR", "offline interceptor: called.");
 
                     CacheControl cacheControl = new CacheControl.Builder()
-                            .maxStale(5, TimeUnit.DAYS)
+                            .maxStale(6, TimeUnit.HOURS)
                             .build();
 
                     request = request.newBuilder()
@@ -98,7 +98,7 @@ public class RetrofitMaker {
                 Response response = chain.proceed(chain.request());
 
                 CacheControl cacheControl = new CacheControl.Builder()
-                        .maxAge(5, TimeUnit.DAYS)
+                        .maxAge(1, TimeUnit.DAYS)
                         .build();
 
                 return response.newBuilder()
