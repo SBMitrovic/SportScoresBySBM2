@@ -87,8 +87,10 @@ public class FavouriteTeams extends AppCompatActivity implements RecyclerViewCli
         } else {
             Log.i("FavouriteTeams", "favouriteTeams is not null");
             adapter = new FavouriteTeamsAdapter(this, favouriteTeams,this);
+            recyclerViewFavourites.setAdapter(adapter);
+
         }
-        adapter = new FavouriteTeamsAdapter(this, favouriteTeams,this);
+       // adapter = new FavouriteTeamsAdapter(this, favouriteTeams,this);
     }
 
     @Override

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/customborder"
-    android:backgroundTint="#22000000"
+
+
     >
 
     <TableLayout
@@ -15,7 +16,7 @@
         android:layout_height="155dp"
         android:clickable="false"
         android:orientation="horizontal"
-        android:background="#22000000"
+        android:background="#FFFFFF"
         >
 
         <TextView
